@@ -24,6 +24,41 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/home';
 
     /**
+     * Static Pages
+     */
+    public const USER_ABOUT = "users.static.about";
+    public const USER_FAQ = "users.static.faq";
+    public const USER_FEEDBACK = "users.static.feedback";
+    public const USER_PRIVACY = "users.static.privacy";
+    public const USER_TESTIMONY = "users.static.testimony";
+
+
+    /**
+     * Auth Pages
+     */
+    public const USER_LOGIN = "users.auth.login";
+    public const USER_PASSRECOVERY = "users.auth.recover-password";
+    public const USER_REG_FINAL = "users.auth.register-final";
+    public const USER_REG_FIRST = "users.auth.register-first";
+
+
+    /**
+     * Profile
+     */
+    public const USER_PROFILE = "users.profile.profile";
+    public const USER_PROFILE_EDIT = "users.profile.edit-profile";
+
+
+    /**
+     * User Activities
+     */
+    // public const USER_INDEX = "users.index";
+    public const USER_DASHBOARD = "users.dashboard";
+    public const USER_NEWS = "users.news-page";
+
+    
+
+    /**
      * Define your route model bindings, pattern filters, etc.
      *
      * @return void

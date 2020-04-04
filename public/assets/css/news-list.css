@@ -1,0 +1,17 @@
+#news-category-ctrl {
+  position: fixed;
+  top: 70px;
+  z-index: 45;
+}
+
+.news-card-image {
+  background-size: cover;
+  background-position: 50% 50%;
+  max-width: 180px;
+  /*min-height: 120px;*/
+}
+
+#news-list {
+  margin-top: 47px;
+}
+
