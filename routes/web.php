@@ -48,6 +48,10 @@ Route::get("/", function(){
         return view(RSP::USER_PRIVACY);
     })->name("user.privacy.page");
     
+    Route::get("/terms", function(){
+        return view(RSP::USER_TERMS);
+    })->name("user.terms.page");
+    
     Route::get("/testimonies", function(){
         return view(RSP::USER_TESTIMONY);
     })->name("user.testimony.page");
@@ -65,9 +69,7 @@ Route::get("/", function(){
         return view(RSP::USER_PASSRECOVERY);
     })->name("user.password.recovery.page");
     
-    Route::get("/register-step1", function(){
-        return view(RSP::USER_REG_FIRST);
-    })->name("user.register-first.page");
+    Route::get("/create-account", "RegistrationController@showRegistrationForm")->name("user.register-first.page");
     
     Route::get("/register-step2", function(){
         return view(RSP::USER_REG_FINAL);
@@ -99,6 +101,16 @@ Route::get("/", function(){
         return view(RSP::USER_NEWS);
     })->name("user.news.page");
 
+
+
+
+/**
+ * Processes
+ */
+    /**
+     * Auth Processes
+     */
+    Route::post("create_account", "RegistrationController@registerAccount")->name("user.register.first.process");
 
 
 /**

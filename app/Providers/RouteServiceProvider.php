@@ -30,6 +30,7 @@ class RouteServiceProvider extends ServiceProvider
     public const USER_FAQ = "users.static.faq";
     public const USER_FEEDBACK = "users.static.feedback";
     public const USER_PRIVACY = "users.static.privacy";
+    public const USER_TERMS = "users.static.terms";
     public const USER_TESTIMONY = "users.static.testimony";
 
 

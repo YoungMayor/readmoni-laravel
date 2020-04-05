@@ -35,10 +35,10 @@
                         <hr>
                     </form>
                     <div class="text-center">
-                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                        <a class="small" href="{{ route('user.password.recovery.page') }}">Forgot Password?</a>
                     </div>
                     <div class="text-center">
-                        <a class="small" href="register-first.html">Create an Account!</a>
+                        <a class="small" href="{{ route('user.register-first.page') }}">Create an Account!</a>
                     </div>
                 </div>
             </div>
