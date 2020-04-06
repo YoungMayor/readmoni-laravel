@@ -15,14 +15,22 @@ use App\Providers\RouteServiceProvider as RSP;
 |
 */
  
+Auth::routes(['verify' => true]);
+
 
 Route::get("/", function(){
     if (Auth::check()){
         return redirect()->route("user.dashboard.page");
     }else{
-        return redirect()->route("user.login.page");
+        return redirect()->route("login");
     }
 })->name("index");
+
+
+Route::get("/error", function(Request $request){
+    // if no session('error') redirect
+    return view('users.static.error');
+})->name("user.error.page");
 
 
 /**
@@ -61,20 +69,20 @@ Route::get("/", function(){
     /**
      * Auth Pages
      */    
-    Route::get("/login", function(){
-        return view(RSP::USER_LOGIN);
-    })->name("user.login.page");
     
     Route::get("/recover-password", function(){
         return view(RSP::USER_PASSRECOVERY);
     })->name("user.password.recovery.page");
     
-    Route::get("/create-account", "RegistrationController@showRegistrationForm")->name("user.register-first.page");
     
-    Route::get("/register-step2", function(){
-        return view(RSP::USER_REG_FINAL);
-    })->name("user.register-final.page");
+    Route::get("/activate-account@{key}", "ActivateAccountController@showActivateAccountPage")->name("user.activate.page");
 
+    Route::post("/activate-now", "ActivateAccountController@redirectToGateWay")->name("user.activate.process");
+
+    Route::get("/confirm-payment", "ActivateAccountController@handleGatewayCallback")->name("user.activate.confirm.process"); 
+    
+    Route::get("/account-activated@{key}", "ActivateAccountController@showAccountActivatedPage")->name("user.activate.success.page");
+    
 
 
     /**
@@ -103,16 +111,6 @@ Route::get("/", function(){
 
 
 
-
-/**
- * Processes
- */
-    /**
-     * Auth Processes
-     */
-    Route::post("create_account", "RegistrationController@registerAccount")->name("user.register.first.process");
-
-
 /**
  * Logout
  */
@@ -120,3 +118,6 @@ Route::get("logout", function(){
     Auth::logout();
     return redirect()->route("index");
 })->name("user.logout.page");
+
+
+// Route::get('/home', 'HomeController@index')->name('home');

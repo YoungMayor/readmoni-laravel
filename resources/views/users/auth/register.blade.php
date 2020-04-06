@@ -24,18 +24,18 @@
                         <h4 class="text-dark mb-4">Create an Account!</h4>
                     </div>
                     
-                    <form class="userx" action="{{ route('user.register.first.process') }}" method="post">
+                    <form class="userx" action="{{ route('register') }}" method="post">
                         @csrf
 
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input class="form-control form-control-user" type="text" id="full_name" placeholder="Full Name" name="full_name" required="" value="{{ old('full_name') }}">
+                                <input class="form-control form-control-user @error('full_name') is-invalid @else is-valid @enderror" type="text" id="full_name" placeholder="Full Name" name="full_name" required="" value="{{ old('full_name', 'Meyoron Aghogho') }}">
                                 <small>
                                     <small>
                                         <em>Your Real Name. This will not be disclosed to other users but is needed for payment validations</em>
                                     </small>
                                     @error('full_name')
-                                    <span class="invalid-feedback" role="alert">
+                                    <span class="invalid-feedback d-block" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
@@ -43,7 +43,7 @@
                             </div>
 
                             <div class="col-sm-6">
-                                <input class="form-control form-control-user" type="text" id="chat_name" placeholder="Chat Name" name="chat_name" required="" value="{{ old('chat_name') }}">
+                                <input class="form-control form-control-user @error('chat_name') is-invalid @else is-valid @enderror" type="text" id="chat_name" placeholder="Chat Name" name="chat_name" required="" value="{{ old('chat_name', 'young') }}">
                                 <small>
                                     <small>
                                         <em>Create a unique chat name, this will be shown to other users.</em>
@@ -52,7 +52,7 @@
                                         <br>
                                     </small>
                                     @error('chat_name')
-                                    <span class="invalid-feedback" role="alert">
+                                    <span class="invalid-feedback d-block" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
@@ -61,18 +61,23 @@
                         </div>
 
                         <div class="form-group">
-                            <textarea id="address" class="border rounded form-control" name="address" placeholder="Home Address. Example: Street Number, Street Name, Region/Town, State" rows="3" required="">{{ old('address') }}</textarea>
+                            <textarea id="address" class="border rounded form-control @error('address') is-invalid @else is-valid @enderror" name="address" placeholder="Home Address. Example: Street Number, Street Name, Region/Town, State" rows="3" required="">{{ old('address', '32 Karien Street, Warri, Delta State') }}</textarea>
+                            @error('address')
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
 
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input class="form-control form-control-user" type="tel" id="telephone" placeholder="Telephone Number" name="telephone" required="" value="{{ old('telephone') }}">
+                                <input class="form-control form-control-user @error('telephone') is-invalid @else is-valid @enderror" type="tel" id="telephone" placeholder="Telephone Number" name="telephone" required="" value="{{ old('telephone', '08025113719') }}">
                                 <small>
                                     <small>
                                         <em>Your phone number would be used for confirmation calls and transaction alerts. It will not be disclosed to other users</em>
                                     </small>
                                     @error('telephone')
-                                    <span class="invalid-feedback" role="alert">
+                                    <span class="invalid-feedback d-block" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
@@ -80,13 +85,15 @@
                             </div>
 
                             <div class="col-sm-6">
-                                <input class="form-control form-control-user" type="email" id="email" aria-describedby="emailHelp" placeholder="Email Address" name="email" required="" value="{{ old('email') }}">
+                                <input class="form-control form-control-user @error('email') is-invalid @else is-valid @enderror" type="email" id="email" aria-describedby="emailHelp" placeholder="Email Address" name="email" required="" value="{{ old('email', 'youngmayor08@gmail.com') }}">
                                 <small>
                                     <small>
-                                        <em>Your Real Name. This will not be disclosed to other users but is needed for payment validations</em>
+                                        <em>
+                                            Your E-mail address would be used for login and password recovery
+                                        </em>
                                     </small>
                                     @error('email')
-                                    <span class="invalid-feedback" role="alert">
+                                    <span class="invalid-feedback d-block" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
@@ -96,13 +103,13 @@
 
                         <div class="form-group row">
                             <div class="col-sm-7 mb-3 mb-sm-0">
-                                <input id="dob" class="form-control" type="date" name="dob" value="1960-05-10" max="2004-03-30" required="" value="{{ old('dob') }}">
+                                <input id="dob" class="form-control @error('dob') is-invalid @else is-valid @enderror" type="date" name="dob" value="1960-05-10" max="2004-03-30" required="" value="{{ old('dob') }}">
                                 <small>
                                     <small>
                                         <em>Your Date of Birth</em>
                                     </small>
                                     @error('dob')
-                                    <span class="invalid-feedback" role="alert">
+                                    <span class="invalid-feedback d-block" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
@@ -111,7 +118,7 @@
 
                             <div class="col-sm-5">
                                 <label class="d-block">
-                                    Sex:
+                                    Sex: {{ old('gender') }}
                                 </label>
                                 <div class="custom-control custom-control-inline custom-radio">
                                     <input class="custom-control-input" type="radio" id="gender_male" name="gender" value="m" required="">
@@ -130,16 +137,21 @@
 
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input class="form-control form-control-user" type="password" id="password" placeholder="Password" name="password" required="">
+                                <input class="form-control form-control-user @error('password') is-invalid @else is-valid @enderror" type="password" id="password" placeholder="Password" name="password" required="" value="{{ old('password', 'Mayor inc 010') }}">
+                                @error('password')
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                             <div class="col-sm-6">
-                                <input class="form-control form-control-user" type="password" id="password_confirm" placeholder="Repeat Password" name="password_repeat" required="">
+                                <input class="form-control form-control-user" type="password" id="password_confirmation" placeholder="Repeat Password" name="password_confirmation" required="" value="{{ old('password_confirmation', 'Mayor inc 010') }}">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input class="form-control form-control-user" type="text" id="referer" placeholder="Your referer" name="referer" value="{{ old('referer') }}" pattern="([A-z]{2}-[0-9]{4}[A-z])">
+                                <input class="form-control form-control-user @error('referer') is-invalid @else is-valid @enderror" type="text" id="referer" placeholder="Your referer" name="referer" value="{{ old('referer') }}" pattern="^[A-z]{2}-[0-9]{4}[A-z]$">
                                 <small>
                                     <small>
                                         <em>
@@ -147,7 +159,7 @@
                                         </em>
                                     </small>
                                     @error('referer')
-                                    <span class="invalid-feedback" role="alert">
+                                    <span class="invalid-feedback d-block" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
@@ -157,7 +169,7 @@
                             <div class="col-sm-6">
                                 <div class="custom-control custom-switch">
                                     <input class="custom-control-input" type="checkbox" id="tnc" name="tnc" value="1" required="">
-                                    <label class="custom-control-label" for="tnc_accept">
+                                    <label class="custom-control-label" for="tnc">
                                         <small>
                                             <em>
                                                 I have read and accepted the 
@@ -179,8 +191,8 @@
                                 </div>
                                 <div class="col">
                                     <small class="form-text text-muted">
-                                        After a successful registration of your account. You would be required to make a non-refundable onetime payment of N{{ number_format(env('REGISTRATION_FEE')) }} using 
-                                        <a href="{{ env('PAYSTACK_URL', '#') }}">Paystack</a>
+                                        After a successful registration of your account. You would be required to make a non-refundable onetime payment of N{{ number_format(config('app.REGISTRATION_FEE')) }} using 
+                                        <a href="{{ cpnfig('app.PAYSTACK_URL') }}">Paystack</a>
                                         before your account will be duly activated.
                                     </small>
                                 </div>
@@ -198,7 +210,7 @@
                     </div>
 
                     <div class="text-center">
-                        <a class="small" href="{{ route('user.login.page') }}">Already have an account? Login!</a>
+                        <a class="small" href="{{ route('login') }}">Already have an account? Login!</a>
                     </div>
                 </div>
             </div>

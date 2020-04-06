@@ -123,6 +123,21 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+
+
+    /**
+     * PAYMENT CONFIGURATIONS
+     */
+
+    'REGISTRATION_FEE' => env('REGISTRATION_FEE', '2600'), 
+    'PAYSTACK_URL' => env('PAYSTACK_URL', 'https://paystack.com'),
+    
+    'PAYSTACK_PUBLIC_KEY' => env('PAYSTACK_PUBLIC_KEY', 'pk_test_2a758026b16c8b3a4c52a10f1c36204fcf80556d'),
+    'PAYSTACK_SECRET_KEY' => env('PAYSTACK_SECRET_KEY', 'sk_test_e4b7af02b0adcab7ecc27b94e37cd1b1bdfe62ea'),
+    'PAYSTACK_PAYMENT_URL' => env('PAYSTACK_PAYMENT_URL', 'https://api.paystack.com'),
+    'MERCHANT_EMAIL' => env('MERCHANT_EMAIL', 'readmoni9ja@gmail.com'),
+
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

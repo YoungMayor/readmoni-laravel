@@ -182,7 +182,7 @@
                     </li> --}}
 
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link border rounded border-success" href="{{ route('user.login.page') }}">
+                        <a class="nav-link border rounded border-success" href="{{ route('login') }}">
                             <i class="fas fa-sign-in-alt"></i>
                             <span>Sign In</span>
                         </a>

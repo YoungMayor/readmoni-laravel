@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use Notifiable;
+    protected $primaryKey = 'id';
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'user_key', 'full_name', 'email', 'chat_name', 'telephone', 'address', 'dob', 'sex', 'account_activated', 'referer', 'password',
     ];
 
     /**

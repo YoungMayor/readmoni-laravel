@@ -14,7 +14,8 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->string('user_key', 8);
+            $table->id();
+            $table->string('user_key', 8)->unique();
             $table->string('email')->unique();
 
             $table->string('full_name');
@@ -24,13 +25,12 @@ class CreateUsersTable extends Migration
             $table->date('dob');
             $table->enum('sex', ['m', 'f', 'u'])->default('u');
             $table->enum('account_activated', ['n', 'y'])->default('n');
+            $table->string('referer', 8)->nullable();
 
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-
-            $table->primary('user_key');
         });
     }
 

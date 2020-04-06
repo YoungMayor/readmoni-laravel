@@ -19,7 +19,6 @@ class CreateRegistrationPaymentsTable extends Migration
             $table->string('user_key', 8);
             $table->text('transaction_reference');
             $table->string('amount', 13)->default(env('REGISTRATION_FEE', '2600'));
-            $table->string('referer', 8)->nullable();
 
             $table->timestamps();
 

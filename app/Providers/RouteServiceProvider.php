@@ -39,8 +39,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const USER_LOGIN = "users.auth.login";
     public const USER_PASSRECOVERY = "users.auth.recover-password";
-    public const USER_REG_FINAL = "users.auth.register-final";
-    public const USER_REG_FIRST = "users.auth.register-first";
+    public const USER_ACTIVATE = "users.auth.activate";
+    public const USER_REGISTER = "users.auth.register";
 
 
     /**
