@@ -28,9 +28,12 @@ Route::get("/", function(){
 
 
 Route::get("/error", function(Request $request){
-    // if no session('error') redirect
-    return view('users.static.error');
+    return view(RSP::USER_ERROR);
 })->name("user.error.page");
+
+Route::get("/success", function(Request $request){
+    return view(RSP::USER_SUCCESS);
+})->name("user.success.page");
 
 
 /**
@@ -120,4 +123,6 @@ Route::get("logout", function(){
 })->name("user.logout.page");
 
 
-// Route::get('/home', 'HomeController@index')->name('home');
+Route::fallback(function(){
+    return view(RSP::USER_404);
+});

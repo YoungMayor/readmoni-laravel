@@ -54,6 +54,13 @@ return [
             'days' => 14,
         ],
 
+        'activation' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/activation/laravel.log'),
+            'level' => 'debug',
+            'days' => 30,
+        ],
+
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),

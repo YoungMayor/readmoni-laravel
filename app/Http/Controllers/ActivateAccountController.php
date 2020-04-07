@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Providers\RouteServiceProvider as RSP;
 
 use App\User;
@@ -31,7 +32,7 @@ class ActivateAccountController extends Controller
     public function pendingActivation($key, &$red = false){
         $user = User::where("user_key", $key)->first(); 
         if (!$user){
-            $red = redirect()->route('user.error.page')->with('error', "User Account is not registered");
+            $red = redirect()->route('user.error.page')->with('note', "User Account is not registered");
             return false;
         }
 
@@ -91,17 +92,21 @@ class ActivateAccountController extends Controller
         $err = curl_error($curl);
 
         if($err){
+            Log::channel('activation')->error("Redirect To Paystack Gateway Failed. cUrl returned: $err. For User: {$key}");
+
             return redirect()->route("user.error.page")->with('error', "An error occurred during payment");
 
-            die('Curl returned error: ' . $err);
+            die();
         }
 
         $tranx = json_decode($response);
 
         if(!$tranx->status){
+            Log::channel('activation')->error("Paystack API Transaction error: {$tranx->message}. For User: {$key}. Full Error: {$response}");
+
             return redirect()->route("user.error.page")->with('error', "An error occurred during payment");
 
-            die('API returned error: ' . $tranx->message);
+            die();
         }
 
         return redirect($tranx->data->authorization_url);
@@ -135,17 +140,21 @@ class ActivateAccountController extends Controller
         $err = curl_error($curl);
   
         if($err){
+            Log::channel('activation')->error("Payment Verification failed. cUrl returned: $err. Transaction Reference: {$reference}");
+
             return redirect()->route("user.error.page")->with('error', "An error occurred");
 
-            die('Curl returned error: ' . $err);
+            die();
         }
   
         $tranx = json_decode($response);
   
         if(!$tranx->status){
+            Log::channel('activation')->error("Paystack API Verification error: {$tranx->message}. Transaction Reference: {$reference}. Full Error: {$response}");
+    
             return redirect()->route("user.error.page")->with('error', "An error occurred");
 
-            die('API returned error: ' . $tranx->message);
+            die();
         }
   
         if($tranx->data->status == 'success'){
@@ -176,6 +185,8 @@ class ActivateAccountController extends Controller
 
         }
 
+        Log::channel('activation')->error("Uncaught Payment Verification Failure");
+
         return redirect()->route("user.error.page")->with('error', "An error occurred");
     }
 
@@ -186,6 +197,10 @@ class ActivateAccountController extends Controller
     }
 
     public function showAccountActivatedPage($key){
-        return "Account $key has been activated";
+        $user = User::where('user_key', $key)->first(); 
+        return view(RSP::USER_ACTIVATED, [
+            'key' => $user->user_key, 
+            'name' => $user->full_name
+        ]);
     }
 }

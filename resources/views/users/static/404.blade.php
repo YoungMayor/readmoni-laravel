@@ -13,17 +13,17 @@
 @section("page-body")
 <div class="row">
     <div class="col text-center text-warning">
-        <i class="fas fa-car-crash fa-10x"></i>
+        <i class="fas fa-puzzle-piece fa-10x"></i>
         <div class="clearfix"></div>
-        <span class="spinner-border"></span>
+        <span class="spinner-grow mt-2"></span>
         <h2 class="p-2">
-            {{ session('note', 'Something went wrong') }}
+            Oops! <br>The page you requested went on a short break...
         </h2>
     </div>
 </div>
 <div class="row">
     <div class="col text-center">
-        <a class="btn btn-outline-primary btn-lg" role="button" href="{{ session('link', route('index')) }}">
+        <a class="btn btn-outline-primary btn-lg" role="button" href="{{ route('index') }}">
             <span>
                 <i class="fas fa-arrow-left"></i>
             </span>

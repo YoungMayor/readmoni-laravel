@@ -33,6 +33,10 @@ class RouteServiceProvider extends ServiceProvider
     public const USER_TERMS = "users.static.terms";
     public const USER_TESTIMONY = "users.static.testimony";
 
+    public const USER_404 = "users.static.404";
+    public const USER_ERROR = "users.static.error";
+    public const USER_SUCCESS = "users.static.success";
+
 
     /**
      * Auth Pages
@@ -41,6 +45,8 @@ class RouteServiceProvider extends ServiceProvider
     public const USER_PASSRECOVERY = "users.auth.recover-password";
     public const USER_ACTIVATE = "users.auth.activate";
     public const USER_REGISTER = "users.auth.register";
+
+    public const USER_ACTIVATED = "users.auth.activated";
 
 
     /**
