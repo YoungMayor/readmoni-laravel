@@ -78,6 +78,11 @@ Route::get("/success", function(Request $request){
     })->name("user.password.recovery.page");
     
     
+
+
+    /**
+     * Activation 
+     */
     Route::get("/activate-account@{key}", "ActivateAccountController@showActivateAccountPage")->name("user.activate.page");
 
     Route::post("/activate-now", "ActivateAccountController@redirectToGateWay")->name("user.activate.process");

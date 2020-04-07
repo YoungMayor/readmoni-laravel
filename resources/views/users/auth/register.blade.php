@@ -29,7 +29,7 @@
 
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input class="form-control form-control-user @error('full_name') is-invalid @else is-valid @enderror" type="text" id="full_name" placeholder="Full Name" name="full_name" required="" value="{{ old('full_name', 'Meyoron Aghogho') }}">
+                                <input class="form-control form-control-user @error('full_name') is-invalid @else is-valid @enderror" type="text" id="full_name" placeholder="Full Name" name="full_name" required="" value="{{ old('full_name') }}">
                                 <small>
                                     <small>
                                         <em>Your Real Name. This will not be disclosed to other users but is needed for payment validations</em>
@@ -43,7 +43,7 @@
                             </div>
 
                             <div class="col-sm-6">
-                                <input class="form-control form-control-user @error('chat_name') is-invalid @else is-valid @enderror" type="text" id="chat_name" placeholder="Chat Name" name="chat_name" required="" value="{{ old('chat_name', 'young') }}">
+                                <input class="form-control form-control-user @error('chat_name') is-invalid @else is-valid @enderror" type="text" id="chat_name" placeholder="Chat Name" name="chat_name" required="" value="{{ old('chat_name') }}">
                                 <small>
                                     <small>
                                         <em>Create a unique chat name, this will be shown to other users.</em>
@@ -61,7 +61,7 @@
                         </div>
 
                         <div class="form-group">
-                            <textarea id="address" class="border rounded form-control @error('address') is-invalid @else is-valid @enderror" name="address" placeholder="Home Address. Example: Street Number, Street Name, Region/Town, State" rows="3" required="">{{ old('address', '32 Karien Street, Warri, Delta State') }}</textarea>
+                            <textarea id="address" class="border rounded form-control @error('address') is-invalid @else is-valid @enderror" name="address" placeholder="Home Address. Example: Street Number, Street Name, Region/Town, State" rows="3" required="">{{ old('address') }}</textarea>
                             @error('address')
                             <span class="invalid-feedback d-block" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -71,7 +71,7 @@
 
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input class="form-control form-control-user @error('telephone') is-invalid @else is-valid @enderror" type="tel" id="telephone" placeholder="Telephone Number" name="telephone" required="" value="{{ old('telephone', '08025113719') }}">
+                                <input class="form-control form-control-user @error('telephone') is-invalid @else is-valid @enderror" type="tel" id="telephone" placeholder="Telephone Number" name="telephone" required="" value="{{ old('telephone') }}">
                                 <small>
                                     <small>
                                         <em>Your phone number would be used for confirmation calls and transaction alerts. It will not be disclosed to other users</em>
@@ -85,7 +85,7 @@
                             </div>
 
                             <div class="col-sm-6">
-                                <input class="form-control form-control-user @error('email') is-invalid @else is-valid @enderror" type="email" id="email" aria-describedby="emailHelp" placeholder="Email Address" name="email" required="" value="{{ old('email', 'youngmayor08@gmail.com') }}">
+                                <input class="form-control form-control-user @error('email') is-invalid @else is-valid @enderror" type="email" id="email" aria-describedby="emailHelp" placeholder="Email Address" name="email" required="" value="{{ old('email') }}">
                                 <small>
                                     <small>
                                         <em>
@@ -118,7 +118,7 @@
 
                             <div class="col-sm-5">
                                 <label class="d-block">
-                                    Sex: {{ old('gender') }}
+                                    Sex: 
                                 </label>
                                 <div class="custom-control custom-control-inline custom-radio">
                                     <input class="custom-control-input" type="radio" id="gender_male" name="gender" value="m" required="">
@@ -137,7 +137,7 @@
 
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input class="form-control form-control-user @error('password') is-invalid @else is-valid @enderror" type="password" id="password" placeholder="Password" name="password" required="" value="{{ old('password', 'Mayor inc 010') }}">
+                                <input class="form-control form-control-user @error('password') is-invalid @else is-valid @enderror" type="password" id="password" placeholder="Password" name="password" required="" value="{{ old('password') }}">
                                 @error('password')
                                 <span class="invalid-feedback d-block" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -145,7 +145,7 @@
                                 @enderror
                             </div>
                             <div class="col-sm-6">
-                                <input class="form-control form-control-user" type="password" id="password_confirmation" placeholder="Repeat Password" name="password_confirmation" required="" value="{{ old('password_confirmation', 'Mayor inc 010') }}">
+                                <input class="form-control form-control-user" type="password" id="password_confirmation" placeholder="Repeat Password" name="password_confirmation" required="" value="{{ old('password_confirmation') }}">
                             </div>
                         </div>
 
@@ -192,7 +192,7 @@
                                 <div class="col">
                                     <small class="form-text text-muted">
                                         After a successful registration of your account. You would be required to make a non-refundable onetime payment of N{{ number_format(config('app.REGISTRATION_FEE')) }} using 
-                                        <a href="{{ cpnfig('app.PAYSTACK_URL') }}">Paystack</a>
+                                        <a href="{{ config('app.PAYSTACK_URL') }}">Paystack</a>
                                         before your account will be duly activated.
                                     </small>
                                 </div>

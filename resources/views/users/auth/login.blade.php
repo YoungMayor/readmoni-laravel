@@ -1,6 +1,6 @@
 @extends('layouts.user')
 
-@section("title", "ReadMONI")
+@section("title", "ReadMONI - Login")
 
 @section("page-css")
 
@@ -24,21 +24,53 @@
                     <div class="text-center">
                         <h4 class="text-dark mb-4">Welcome Back!</h4>
                     </div>
-                    <form class="user">
+                    <form class="userx" method="POST" action="{{ route('login') }}">
+                        @csrf
+
                         <div class="form-group">
-                            <input class="form-control form-control-user" type="email" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." name="email">
+                            <input class="form-control form-control-user @error('email') is-invalid @enderror" type="email" id="email" aria-describedby="emailHelp" placeholder="Enter Email Address..." value="{{ old('email') }}" autocomplete="email" autofocus name="email" required>
+
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
+                        
                         <div class="form-group">
-                            <input class="form-control form-control-user" type="password" id="exampleInputPassword" placeholder="Password" name="password">
+                            <input class="form-control form-control-user @error('password') is-invalid @enderror" type="password" id="password" placeholder="Password" name="password" autocomplete="current-password" required>
+
+                            @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
-                        <button class="btn btn-primary btn-block text-white btn-user" type="submit">Login</button>
+
+                        <div class="form-group row">
+                            <div class="col-md-6 offset-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+
+                                    <label class="form-check-label" for="remember">
+                                        {{ __('Remember Me') }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary btn-block text-white btn-user" type="submit">
+                            Login
+                        </button>
                         <hr>
                     </form>
+
                     <div class="text-center">
-                        <a class="small" href="{{ route('user.password.recovery.page') }}">Forgot Password?</a>
+                        <a class="small" href="{{ route('password.request') }}">Forgot Password?</a>
                     </div>
+
                     <div class="text-center">
-                        <a class="small" href="{{ route('user.register-first.page') }}">Create an Account!</a>
+                        <a class="small" href="{{ route('register') }}">Create an Account!</a>
                     </div>
                 </div>
             </div>
