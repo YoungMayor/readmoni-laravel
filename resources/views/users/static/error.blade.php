@@ -13,7 +13,7 @@
 @section("page-body")
 <div class="row">
     <div class="col text-center text-warning">
-        <i class="fas fa-car-crash fa-10x"></i>
+        <i class="fas fa-car-crash tada animated infinite fa-10x"></i>
         <div class="clearfix"></div>
         <span class="spinner-border"></span>
         <h2 class="p-2">

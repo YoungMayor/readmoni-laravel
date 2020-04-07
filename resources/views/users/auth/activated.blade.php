@@ -13,7 +13,7 @@
 @section("page-body")
 <div class="row">
     <div class="col text-center text-success">
-        <i class="fas fa-user-check fa-10x"></i>
+        <i class="fas fa-user-check tada animated infinite fa-10x"></i>
         <div class="clearfix"></div>
         <h2 class="p-2">Account Activation Successful</h2>
     </div>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
+use App\Providers\RouteServiceProvider as RSP;
 use Illuminate\Foundation\Auth\ConfirmsPasswords;
 
 class ConfirmPasswordController extends Controller
@@ -22,11 +22,14 @@ class ConfirmPasswordController extends Controller
     use ConfirmsPasswords;
 
     /**
-     * Where to redirect users when the intended url fails.
+     * Display the password confirmation view.
      *
-     * @var string
+     * @return \Illuminate\Http\Response
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    public function showConfirmForm()
+    {
+        return view(RSP::USER_PASSWORD_CONFIRM);
+    }
 
     /**
      * Create a new controller instance.
@@ -36,5 +39,31 @@ class ConfirmPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    /**
+     * Get the password confirmation validation rules.
+     *
+     * @return array
+     */
+    protected function rules()
+    {
+        return [
+            'password' => 'required|password',
+        ];
+    }
+
+    /**
+     * Get the password confirmation validation error messages.
+     *
+     * @return array
+     */
+    protected function validationErrorMessages()
+    {
+        return [];
+    }
+
+    protected function redirectTo(){
+        return route('index');
     }
 }

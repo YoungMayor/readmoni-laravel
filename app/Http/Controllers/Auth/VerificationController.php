@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
+use App\Providers\RouteServiceProvider as RSP;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 
 class VerificationController extends Controller
@@ -22,11 +22,35 @@ class VerificationController extends Controller
     use VerifiesEmails;
 
     /**
+     * Show the email verification notice.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request)
+    {
+        return $request->user()->hasVerifiedEmail()
+                        ? redirect($this->redirectPath())
+                        : view(RSP::USER_PASSWORD_VERIFY);
+    }
+
+    /**
+     * The user has been verified.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return mixed
+     */
+    protected function verified(Request $request)
+    {
+        //
+    }
+
+    /**
      * Where to redirect users after verification.
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -41,6 +65,6 @@ class VerificationController extends Controller
     }
 
     protected function redirectTo(){
-        return route('user.dashboard.page');
+        return route('index');
     }
 }

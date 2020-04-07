@@ -42,11 +42,15 @@ class RouteServiceProvider extends ServiceProvider
      * Auth Pages
      */
     public const USER_LOGIN = "users.auth.login";
-    public const USER_PASSRECOVERY = "users.auth.recover-password";
     public const USER_ACTIVATE = "users.auth.activate";
     public const USER_REGISTER = "users.auth.register";
 
     public const USER_ACTIVATED = "users.auth.activated";
+
+    public const USER_PASSWORD_CONFIRM = "users.auth.passwords.confirm";
+    public const USER_PASSWORD_RESET = "users.auth.passwords.reset";
+    public const USER_PASSWORD_REQUEST = "users.auth.passwords.request";
+    public const USER_PASSWORD_VERIFY = "users.auth.passwords.verify";
 
 
     /**

@@ -14,6 +14,7 @@
 
 
     @css(general, 1)
+    @css(animate.min, 1)
     @yield('page-css')
 </head>
 

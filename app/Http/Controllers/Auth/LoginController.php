@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
+use App\Providers\RouteServiceProvider as RSP;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -22,20 +22,13 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::USER_DASHBOARD;
-
-    /**
      * Show the application's login form.
      *
      * @return \Illuminate\Http\Response
      */
     public function showLoginForm()
     {
-        return view('users.auth.login');
+        return view(RSP::USER_LOGIN);
     }
 
     /**
@@ -49,6 +42,6 @@ class LoginController extends Controller
     }
 
     protected function redirectTo(){
-        return route('user.dashboard.page');
+        return route('index');
     }
 }
