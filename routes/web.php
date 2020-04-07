@@ -53,7 +53,7 @@ Route::get("/success", function(Request $request){
     
     Route::get("/feedback", function(){
         return view(RSP::USER_FEEDBACK);
-    })->name("user.feedback.page");
+    })->name("user.feedback.page")->middleware(['auth']);
     
     Route::get("/privacy", function(){
         return view(RSP::USER_PRIVACY);
@@ -93,30 +93,31 @@ Route::get("/success", function(Request $request){
     
 
 
-    /**
-     * Profile Pages
-     */    
-    Route::get("/profile", function(){
-        return view(RSP::USER_PROFILE);
-    })->name("user.profile.page");
+    Route::group(['middleware' => ['verified', 'activated']], function () {
+        /**
+         * Profile Pages
+         */    
+        Route::get("/profile", function(){
+            return view(RSP::USER_PROFILE);
+        })->name("user.profile.page");
+        
+        Route::get("/edit-profile", function(){
+            return view(RSP::USER_PROFILE_EDIT);
+        })->name("user.profile.edit.page");        
+        
+        
+        /**
+         * User Activities
+         */
+        Route::get("/dashboard", function(){
+            return view(RSP::USER_DASHBOARD);
+        })->name("user.dashboard.page");
     
-    Route::get("/edit-profile", function(){
-        return view(RSP::USER_PROFILE_EDIT);
-    })->name("user.profile.edit.page");
-
-
+        Route::get("/news", function(){
+            return view(RSP::USER_NEWS);
+        })->name("user.news.page");
+    });    
     
-    /**
-     * User Activities
-     */
-    Route::get("/dashboard", function(){
-        return view(RSP::USER_DASHBOARD);
-    })->name("user.dashboard.page");
-
-    Route::get("/news", function(){
-        return view(RSP::USER_NEWS);
-    })->name("user.news.page");
-
 
 
 /**
