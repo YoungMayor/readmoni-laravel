@@ -103,7 +103,7 @@ Route::get("/success", function(Request $request){
         
         Route::get("/edit-profile", function(){
             return view(RSP::USER_PROFILE_EDIT);
-        })->name("user.profile.edit.page")->middleware('password.confirm');        
+        })->name("user.profile.edit.page")->middleware(['password.confirm']);        
         
         
         /**
