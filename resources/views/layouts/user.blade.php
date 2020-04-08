@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Akronim">
 
 
-    @css(general, 1)
+    @css(general, 2)
     @css(animate.min, 1)
     @yield('page-css')
 </head>
@@ -151,50 +151,59 @@
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" id="sidenav">
             <div class="container-fluid d-flex flex-column p-0" id="sidenav-menu">
                 <ul class="nav navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="{{ route('user.profile.page') }}">
-                            <div>
-                                <img class="rounded-circle img-fluid" src="@imgURL(default_avatar.jpeg)">
-                            </div>
-                            <span>My Account</span>
-                        </a>
-                    </li>
+                    @auth
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" href="{{ route('user.profile.page') }}">
+                                <div>
+                                    <img class="rounded-circle img-fluid profile-avatar" src="{{ RM::avatar() }}">
+                                </div>
+                                <span class="d-block text-center">
+                                    My Account 
+                                    <br/>
+                                    <b>{{ Auth::user()->user_key }}</b>
+                                </span>
+                            </a>
+                        </li>
 
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="{{ route('user.dashboard.page') }}">
-                            <i class="fas fa-tachometer-alt"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" href="{{ route('user.dashboard.page') }}">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
 
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="{{ route('user.news.page') }}">
-                            <i class="far fa-newspaper"></i>
-                            <span>Read News</span>
-                        </a>
-                    </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" href="{{ route('user.news.page') }}">
+                                <i class="far fa-newspaper"></i>
+                                <span>Read News</span>
+                            </a>
+                        </li>
 
-                    {{-- Messages Link, temporarily disabled --}}
-                    {{-- <li class="nav-item" role="presentation">
-                        <a class="nav-link active" href="{{ route('') }}">
-                            <i class="fas fa-envelope"></i>
-                            <span>Messages</span>
-                        </a>
-                    </li> --}}
+                        {{-- Messages Link, temporarily disabled --}}
+                        {{-- <li class="nav-item" role="presentation">
+                            <a class="nav-link active" href="{{ route('') }}">
+                                <i class="fas fa-envelope"></i>
+                                <span>Messages</span>
+                            </a>
+                        </li> --}}
+                                                
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link border rounded border-danger" href="{{ route('user.logout.page') }}">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Sign Out</span>
+                            </a>
+                        </li>
 
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link border rounded border-success" href="{{ route('login') }}">
-                            <i class="fas fa-sign-in-alt"></i>
-                            <span>Sign In</span>
-                        </a>
-                    </li>
-                    
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link border rounded border-danger" href="{{ route('user.logout.page') }}">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Sign Out</span>
-                        </a>
-                    </li>
+                    @else
+
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link border rounded border-success" href="{{ route('login') }}">
+                                <i class="fas fa-sign-in-alt"></i>
+                                <span>Sign In</span>
+                            </a>
+                        </li>
+
+                    @endauth
 
                 </ul>
 

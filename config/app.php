@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'ReadMONI'),
 
     /*
     |--------------------------------------------------------------------------
@@ -191,6 +191,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Providers\ViewShares::class,
+        App\Providers\ReadMoniServiceProvider::class,
 
     ],
 
@@ -244,6 +245,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        'RM' => App\Facades\ReadMoni::class,
     ],
 
 ];
