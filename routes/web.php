@@ -128,7 +128,12 @@ Route::get("/success", function(Request $request){
         Route::post('/edit_address', 'UserProfileController@updateAddress')->name('user.profile.edit.address');
         Route::post('/edit_bank', 'UserProfileController@updateBank')->name('user.bank.edit');
     });    
-    
+
+
+/**
+ * NEWS RETRIEVAL URLS
+ */    
+Route::get('get_news', 'NewsController@retrieveNews');
 
 
 /**
