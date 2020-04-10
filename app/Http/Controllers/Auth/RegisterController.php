@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use App\Tools\ReadMoni as RM;
 
 class RegisterController extends Controller
 {
@@ -56,11 +57,12 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $chatNameRegex = RM::CHAT_NAME_REGEX;
         return Validator::make($data, [
             'full_name' => ['required', 'string', 'max:240'],
-            'chat_name' => ['required', 'string', 'min:4', 'max:24', 'regex:/^[A-z][A-z0-9\.\_]{3,23}$/', 'unique:users,chat_name'],
+            'chat_name' => ['required', 'string', 'min:4', 'max:24', "regex:$chatNameRegex", 'unique:users,chat_name'],
             'address' => ['required', 'string', 'min:12', 'max:255'],
-            'telephone' => ['required', 'string', 'min:11', 'max:14'],
+            'telephone' => ['required', 'string', 'min:11', 'max:24'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email', 'email'],
             'dob' => ['required', 'date', 'before:16 years ago'],
             'gender' => ['required', Rule::in(['m', 'f', 'u'])],

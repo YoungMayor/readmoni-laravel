@@ -75,6 +75,34 @@ _HTML_;
         Blade::directive("imgURL", function($expression){
             return asset("$this->imgPATH/$expression");
         });
+
+        Blade::directive("date", function($expression){
+            return "<?php echo date('F d, Y', strtotime($expression)); ?>";
+        });
+
+        Blade::directive("aj_submit", function($expression){
+            return <<<HTML_
+            <!-- Start: Split Button Success -->
+            <button class="btn btn-success btn-icon-split d-block ml-auto aj-submit-btn" type="submit">
+                <span class="text-white-50 icon aj-loading-icon">
+                    <i class="fas fa-check"></i>
+                </span>
+                <span class="text-white text">$expression</span>
+            </button>
+            <!-- End: Split Button Success -->
+HTML_;
+        });
+
+        Blade::directive("aj_response", function(){
+            return <<<HTML_
+            <div class="text-right text-danger">
+                <small class="aj_response aj_error"></small>
+            </div>
+            <div class="text-right text-success">
+                <small class="aj_response aj_success"></small>
+            </div>
+HTML_;
+        });
     }
 
     protected function assetVersion($str, &$fileName = "", &$version = 1){

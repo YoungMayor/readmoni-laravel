@@ -6,6 +6,8 @@
     
     <title>@yield("title")</title>
     
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
     @BS_CSS()
     @FAW_ALL()
 
@@ -13,7 +15,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Akronim">
 
 
-    @css(general, 2)
+    @css(general, 3)
     @css(animate.min, 1)
     @yield('page-css')
 </head>
@@ -240,6 +242,7 @@
     @js(bs-charts)
     @js(theme)
     @js(jquery.easing)
+    @js(bs-alerts)
 
     @yield("page-js")
 

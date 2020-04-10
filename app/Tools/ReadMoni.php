@@ -9,6 +9,12 @@ use App\User;
 
 class ReadMoni{
     protected $imgPATH = "assets/img";
+    protected $genderMapping = [
+        'm' => 'Male', 
+        'f' => 'Female', 
+        'u' => 'Rather Not Say'
+    ];
+    public const CHAT_NAME_REGEX = "/^[A-z][A-z0-9\.\_]{3,23}$/";
 
     public function sayHello(){
         echo "Hello World";
@@ -29,5 +35,36 @@ class ReadMoni{
         }else{
             return asset("$this->imgPATH/default_avatar.png");
         }
+    }
+
+    public function beautyDate($expression){
+        if (!$expression){
+            $time = time();
+        }else{
+            $time = strtotime($expression);
+        }
+        return date("F d, Y", $time);
+    }
+
+    public function parseGender($expression){
+        return $this->genderMapping[$expression] ?? $this->genderMapping['u'];
+    }
+
+    public function genderSelect($val){
+        $markup = "";
+        foreach ($this->genderMapping as $id => $label){
+            if ($val == $id){
+                $checked = "checked='true'";
+            }else{
+                $checked = "";
+            }
+            $markup .= <<<HTML_
+        <div class="custom-control custom-control-inline custom-radio">
+            <input class="custom-control-input" type="radio" id="gender_$id" name="gender" value="$id" required="" $checked>
+            <label class="custom-control-label" for="gender_$id">$label</label>
+        </div>
+HTML_;
+        }
+        return $markup;
     }
 }

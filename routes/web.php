@@ -97,13 +97,9 @@ Route::get("/success", function(Request $request){
         /**
          * Profile Pages
          */    
-        Route::get("/profile", function(){
-            return view(RSP::USER_PROFILE);
-        })->name("user.profile.page");
+        Route::get("/profile", "UserProfileController@showProfile")->name("user.profile.page");
         
-        Route::get("/edit-profile", function(){
-            return view(RSP::USER_PROFILE_EDIT);
-        })->name("user.profile.edit.page")->middleware(['password.confirm']);        
+        Route::get("/edit-profile", "UserProfileController@showProfileEditor")->name("user.profile.edit.page")->middleware(['password.confirm']);        
         
         
         /**
@@ -116,6 +112,21 @@ Route::get("/success", function(Request $request){
         Route::get("/news", function(){
             return view(RSP::USER_NEWS);
         })->name("user.news.page");
+
+
+
+        /**
+         * Profile Edit Processes
+         */
+        Route::post('/change_avatar', 'UserProfileController@changeAvatar')->name('user.profile.edit.avatar');
+
+        Route::post('/edit_nick', 'UserProfileController@updateNick')->name('user.profile.edit.nick');
+        Route::post('/edit_name', 'UserProfileController@updateName')->name('user.profile.edit.name');
+        Route::post('/edit_phone', 'UserProfileController@updatePhone')->name('user.profile.edit.phone');
+        Route::post('/edit_dob', 'UserProfileController@updateDOB')->name('user.profile.edit.dob');
+        Route::post('/edit_sex', 'UserProfileController@updateSex')->name('user.profile.edit.sex');
+        Route::post('/edit_address', 'UserProfileController@updateAddress')->name('user.profile.edit.address');
+        Route::post('/edit_bank', 'UserProfileController@updateBank')->name('user.bank.edit');
     });    
     
 

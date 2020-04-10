@@ -120,18 +120,7 @@
                                 <label class="d-block">
                                     Sex: 
                                 </label>
-                                <div class="custom-control custom-control-inline custom-radio">
-                                    <input class="custom-control-input" type="radio" id="gender_male" name="gender" value="m" required="">
-                                    <label class="custom-control-label" for="gender_male">Male</label>
-                                </div>
-                                <div class="custom-control custom-control-inline custom-radio">
-                                    <input class="custom-control-input" type="radio" id="gender_female" name="gender" value="f" required="">
-                                    <label class="custom-control-label" for="gender_female">Female</label>
-                                </div>
-                                <div class="custom-control custom-control-inline custom-radio">
-                                    <input class="custom-control-input" type="radio" id="gender_undefined" name="gender" value="u" checked="" required="">
-                                    <label class="custom-control-label" for="gender_undefined">Rather not say</label>
-                                </div>
+                                {!! RM::genderSelect(old('gender')) !!}
                             </div>
                         </div>
 

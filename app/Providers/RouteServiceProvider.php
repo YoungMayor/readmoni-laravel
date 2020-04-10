@@ -67,6 +67,13 @@ class RouteServiceProvider extends ServiceProvider
     public const USER_DASHBOARD = "users.dashboard";
     public const USER_NEWS = "users.news-page";
 
+
+    /**
+     * Responses
+     */
+    public const ERROR_PLAIN = "users.response.err_plain";
+    public const GOOD_PLAIN = "users.response.good_plain";
+
     
 
     /**
