@@ -1,10 +1,11 @@
 #news-category-ctrl {
   position: fixed;
+  width: 100%;
   top: 70px;
   z-index: 45;
 }
 
-.news-card-image {
+.news-image {
   background-size: cover;
   background-position: 50% 50%;
   max-width: 180px;
@@ -15,3 +16,12 @@
   margin-top: 47px;
 }
 
+.switch_category{
+  transition: all .4s ease-in;
+}
+
+.switch_category.active_category {
+    color: #fff;
+    background-color: rgba(133, 135, 150, 0.7);
+    border-color: #858796;
+}

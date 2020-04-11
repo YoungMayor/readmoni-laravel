@@ -109,9 +109,11 @@ Route::get("/success", function(Request $request){
             return view(RSP::USER_DASHBOARD);
         })->name("user.dashboard.page");
     
-        Route::get("/news", function(){
-            return view(RSP::USER_NEWS);
-        })->name("user.news.page");
+        Route::get("/news", "NewsController@showNewsPage")->name("user.news.page");
+
+        Route::post('load_news', 'NewsController@loadNews')->name('user.news.load');
+
+        Route::get('/view_news@{hash}', 'NewsController@viewNews')->name('user.news.view');
 
 
 
@@ -133,7 +135,8 @@ Route::get("/success", function(Request $request){
 /**
  * NEWS RETRIEVAL URLS
  */    
-Route::get('get_news', 'NewsController@retrieveNews');
+Route::get('retrieve_news', 'NewsController@retrieveNews')->name('news.retrieve');
+
 
 
 /**

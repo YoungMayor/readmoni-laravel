@@ -3,39 +3,41 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use App\Providers\RouteServiceProvider as RSP;
 use App\News;
 
 class NewsController extends Controller
 {
-    protected $news_categories = [
-        "business",
-        "entertainment",
-        "general",
-        "health",
-        "science",
-        "sports",
-        "technology"
+    public $news_categories = [
+        "business" => "Business News",
+        "entertainment" => "Entertainment News",
+        "general" => "Highlights",
+        "health" => "Health News",
+        "science" => "Science News",
+        "sports" => "Top News",
+        "technology" => "Technology News", 
+        "top-news" => "Latest News"
     ];
 
     public function retrieveNews(){
         $timeLimit = date("Y-m-d H:i:s", strtotime('2 days ago'));
 
         News::where('created_at', '<', $timeLimit)->delete();
-        foreach ($this->news_categories AS $category) {
-            $results = $this->getNews($category);
+        foreach ($this->news_categories AS $category => $label) {
+            $results = $this->getNewsJSON($category);
             $articles = $results['articles'];
             $this->saveToDB($category, $articles);
             // sleep(3);
         }
-        $breakingNewsResults = $this->getNews();
-        $breakingNewsArticles = $breakingNewsResults['articles'];
-        
-        $this->saveToDB("breaking-news", $breakingNewsArticles);
     }
 
-    public function getNews($category = false){
+    public function getNewsJSON($category = false){
         if (!$category){ 
-            $category = "top-news";
+            return false;
         }
         $url = $this->getNewsURL($category);
     
@@ -79,5 +81,53 @@ class NewsController extends Controller
             $news->save();
             $n++;
         }
+    }
+
+    public function showNewsPage(){
+        return view(RSP::USER_NEWS, [
+            'categories' => $this->news_categories
+        ]);
+    }
+
+    public function loadNews(Request $request){
+        $validateRule = [
+            'category' => ['required', Rule::in(array_keys($this->news_categories))], 
+            'page' => ['required', 'numeric']
+        ];
+      
+        $validator = Validator::make($request->all(), $validateRule);
+    
+        if ($validator->fails()) {
+            $error['e'] = view(RSP::ERROR_PLAIN, ["errors" => $validator->errors()])->render();
+            return json_encode($error);
+        }
+
+        $newsObj = News::where('category', $request->category)->latest()->simplePaginate(10);
+
+        $newsList = [];
+        $count = 0;
+        foreach($newsObj as $thisNews){
+            $newsList[$count]['tt'] = $thisNews->title;
+            $newsList[$count]['src'] = $thisNews->source ?? "...";
+            $newsList[$count]['prv'] = $thisNews->preview;
+            $newsList[$count]['img'] = $thisNews->image;
+            $newsList[$count]['url'] = route('user.news.view', [
+                'hash' => $thisNews->hash
+            ]);
+            $count++;
+        }
+        if ($newsList){
+            $response['list'] = $newsList;
+            $response['next'] = $newsObj->currentPage() + 1;
+        }else{
+            // return end of list command
+            $response['next'] = $newsObj->currentPage();
+            $response['list'] = [];
+        }
+        return json_encode($response);
+    }
+
+    public function viewNews($hash){
+        dd($hash);
     }
 }
