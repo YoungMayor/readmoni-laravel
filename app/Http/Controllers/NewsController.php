@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Providers\RouteServiceProvider as RSP;
 use App\News;
+use App\NewsRead;
+use App\Balance;
+
+use App\Http\Controllers\BalanceController;
 
 class NewsController extends Controller
 {
@@ -137,12 +141,33 @@ class NewsController extends Controller
         }
 
         $newsURL = $news->url;
-        $newsID = $news->url;
-        /**
-         * @todo Fund User Account
-         */
+        $newsID = $news->id;
+
+        if (!self::hasBeenRead($newsID, Auth::id()) && self::withinReadLimit(Auth::id())){
+            self::saveRead($newsID, Auth::id());
+            BalanceController::readBonus(Auth::id());
+        }
+
         return redirect($newsURL);
-        dd($news);
-        dd($hash);
+    }
+
+    public static function hasBeenRead($newsID, $userID){
+        return NewsRead::where('user_id', $userID)->where('news_id', $newsID)->first(); 
+    }
+
+    public static function saveRead($newsID, $userID){
+        return NewsRead::create([
+            'user_id' => $userID, 
+            'news_id' => $newsID
+        ]);                
+    }
+
+    public static function dailyReadCount($userID){
+        return NewsRead::where('user_id', $userID)->whereDate('created_at', date('Y-m-d', strtotime('today')))->count();
+
+    }
+
+    public static function withinReadLimit($userID){
+        return (self::dailyReadCount($userID) < config('app.DAILY_READ_LIMIT'));
     }
 }

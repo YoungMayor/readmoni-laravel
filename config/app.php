@@ -155,6 +155,7 @@ return [
 
     'NEWS_API_KEY' => env('NEWS_API_KEY', '21fc8b13af184278b31c509a8a9db986'),
     'NEWS_SOURCE' => env('NEWS_SOURCE', 'CACHE'),
+    'DAILY_READ_LIMIT' => env('DAILY_READ_LIMIT', '15'),
 
 
     /*
