@@ -140,6 +140,16 @@ return [
 
 
     /**
+     * USER BONUS CONFIGURATIONS
+     */
+
+    'READ_BONUS' => env('READ_BONUS', '12'),
+    'REGISTRATION_BONUS' => env('REGISTRATION_BONUS', '600'),
+    'REFERAL_BONUS' => env('REFERAL_BONUS', '1000'),
+
+
+
+    /**
      * OTHER CONFIGURATIONS
      */
 

@@ -128,6 +128,21 @@ class NewsController extends Controller
     }
 
     public function viewNews($hash){
+        $news = News::where('hash', $hash)->first(); 
+        if (!$news){
+            return redirect()->route('user.error.page')->with([
+                'note' => "News Article unavailable", 
+                'link' => route('user.news.page')
+            ]);
+        }
+
+        $newsURL = $news->url;
+        $newsID = $news->url;
+        /**
+         * @todo Fund User Account
+         */
+        return redirect($newsURL);
+        dd($news);
         dd($hash);
     }
 }

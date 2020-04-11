@@ -12,6 +12,8 @@ use App\Providers\RouteServiceProvider as RSP;
 use App\User;
 use App\RegistrationPayments as PAYMENT;
 
+use App\Http\Controllers\BalanceController;
+
 class ActivateAccountController extends Controller
 {
     public function showActivateAccountPage($key){
@@ -175,14 +177,15 @@ class ActivateAccountController extends Controller
 
             $this->activateAccount($key);
 
+            $user = User::where('user_key', $key)->first();
+            $userID = $user->id;
+
+            BalanceController::activationBonus($userID);
+            BalanceController::payReferal($userID);
+
             return redirect()->route("user.activate.success.page", [
                 'key' => $key
             ]);
-
-            // Credit User start balance
-            // Credit referer ref bonus
-            // redirect to dashboard
-
         }
 
         Log::channel('activation')->error("Uncaught Payment Verification Failure");
