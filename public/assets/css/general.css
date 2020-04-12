@@ -83,3 +83,7 @@
     max-height: 30%;
     overflow: auto;
 }
+
+.notification-card.unread-alert {
+    background-color: rgba(71, 224, 111, 0.15);
+}

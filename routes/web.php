@@ -67,15 +67,6 @@ Route::get("/success", function(Request $request){
         return view(RSP::USER_TESTIMONY);
     })->name("user.testimony.page");
 
-
-
-    /**
-     * Auth Pages
-     */    
-    
-    Route::get("/recover-password", function(){
-        return view(RSP::USER_PASSRECOVERY);
-    })->name("user.password.recovery.page");
     
     
 
@@ -106,12 +97,23 @@ Route::get("/success", function(Request $request){
          * User Activities
          */
         Route::get("/dashboard", "DashBoardController@showPage")->name("user.dashboard.page");
+
+        Route::get("/notifications", "UserNotificationController@showPage")->name("user.notifications.page");
     
         Route::get("/news", "NewsController@showNewsPage")->name("user.news.page");
 
         Route::post('load_news', 'NewsController@loadNews')->name('user.news.load');
 
         Route::get('/view_news@{hash}', 'NewsController@viewNews')->name('user.news.view');
+
+
+        /**
+         * Notification Processes
+         */
+
+        Route::post('/alert_center', "UserNotificationController@recentNotifs")->name('user.alert_center.process');
+
+        Route::post('/get_notifications', "UserNotificationController@getNotifs")->name('user.notifications.process');
 
 
 

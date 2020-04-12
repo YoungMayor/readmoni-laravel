@@ -66,6 +66,7 @@ class RouteServiceProvider extends ServiceProvider
     // public const USER_INDEX = "users.index";
     public const USER_DASHBOARD = "users.dashboard";
     public const USER_NEWS = "users.news-page";
+    public const USER_NOTIFICATIONS = "users.notifications";
 
 
     /**

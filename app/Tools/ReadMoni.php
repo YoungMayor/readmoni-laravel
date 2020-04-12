@@ -5,6 +5,8 @@ namespace App\Tools;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Controllers\UserNotificationController AS NOTIF;
+
 use App\User;
 
 class ReadMoni{
@@ -66,5 +68,22 @@ class ReadMoni{
 HTML_;
         }
         return $markup;
+    }
+
+    public function notificationIconMap(){
+        $map = json_encode(NOTIF::$catICON);
+
+            return <<<SCRIPT_
+            <script>
+                var notificationsIconMap = $map
+            </script>
+SCRIPT_;
+    }
+
+    public function unreadNotifications(){
+        $count = NOTIF::unreadNotificationCount();
+            return <<<HTML_
+            <span class="badge badge-danger badge-counter">$count</span>
+HTML_;
     }
 }
