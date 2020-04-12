@@ -33,6 +33,11 @@ $(".full_ajform").on("submit", function(e) {
         error: function() {
             $(thisError).html("There was an error with your request");
         },
+        statusCode: {
+            419: function() {
+                location.reload();
+            },
+        },
         success: function(response) {
             if (response.e) {
                 $(thisError).html(response.e);

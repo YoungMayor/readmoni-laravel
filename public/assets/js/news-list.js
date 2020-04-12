@@ -85,6 +85,11 @@ $("#get_news").on("click", function(e) {
         error: function() {
 //             $(thisError).html("There was an error with your request");
         },
+        statusCode: {
+            419: function() {
+                location.reload();
+            },
+        },
         success: function(response) {
             if (response.list){
                 for (var i in response.list){

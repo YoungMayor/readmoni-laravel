@@ -33,8 +33,10 @@ class NewsController extends Controller
         News::where('created_at', '<', $timeLimit)->delete();
         foreach ($this->news_categories AS $category => $label) {
             $results = $this->getNewsJSON($category);
-            $articles = $results['articles'];
-            $this->saveToDB($category, $articles);
+            $articles = $results['articles'] ?? false;
+            if ($articles){
+                $this->saveToDB($category, $articles);
+            }
             // sleep(3);
         }
     }
@@ -57,7 +59,12 @@ class NewsController extends Controller
         switch ($src) {
             case 'LIVE':
                 $apiKey = config('app.NEWS_API_KEY');
-                $url = "https://newsapi.org/v2/top-headlines?country=ng{$category}&pageSize=100&apiKey=$apiKey";
+                if ($category == "top-news"){
+                    $catURL = "";
+                }else{
+                    $catURL = "&category=$category";
+                }
+                $url = "https://newsapi.org/v2/top-headlines?country=ng{$catURL}&pageSize=100&apiKey=$apiKey";
                 break;
             
             case 'CACHE':
