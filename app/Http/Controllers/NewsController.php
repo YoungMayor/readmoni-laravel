@@ -170,7 +170,12 @@ class NewsController extends Controller
     }
 
     public static function dailyReadCount($userID){
-        return NewsRead::where('user_id', $userID)->whereDate('created_at', date('Y-m-d', strtotime('today')))->count();
+        return NewsRead::where('user_id', $userID)->whereDate('created_at', date('Y-m-d', strtotime('today')))->count() ?? 0;
+
+    }
+
+    public static function totalReadCount($userID){
+        return NewsRead::where('user_id', $userID)->count() ?? 0;
 
     }
 

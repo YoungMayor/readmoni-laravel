@@ -53,4 +53,8 @@ class BalanceController extends Controller
 
         return true;
     }
+
+    public static function userBalance($id){
+        return Balance::where('user_id', $id)->first()->amount ?? 0;
+    }
 }

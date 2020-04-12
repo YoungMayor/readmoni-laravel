@@ -105,9 +105,7 @@ Route::get("/success", function(Request $request){
         /**
          * User Activities
          */
-        Route::get("/dashboard", function(){
-            return view(RSP::USER_DASHBOARD);
-        })->name("user.dashboard.page");
+        Route::get("/dashboard", "DashBoardController@showPage")->name("user.dashboard.page");
     
         Route::get("/news", "NewsController@showNewsPage")->name("user.news.page");
 

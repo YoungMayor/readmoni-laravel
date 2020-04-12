@@ -25,10 +25,10 @@
                     <div class="row align-items-center no-gutters">
                         <div class="col mr-2">
                             <div class="text-uppercase text-primary font-weight-bold text-xs mb-1">
-                                <span>Earnings (today)</span>
+                                <span>Read Earnings (today)</span>
                             </div>
                             <div class="text-dark font-weight-bold h5 mb-0">
-                                <span>$2.45</span>
+                                <span>&#x20a6;{{ $daily_earn }}</span>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -47,7 +47,7 @@
                                 <span>CURRENT BALANCE</span>
                             </div>
                             <div class="text-dark font-weight-bold h5 mb-0">
-                                <span>$18.22</span>
+                                <span>&#x20a6;{{ $balance }}</span>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -63,10 +63,10 @@
                     <div class="row align-items-center no-gutters">
                         <div class="col mr-2">
                             <div class="text-uppercase text-primary font-weight-bold text-xs mb-1">
-                                <span>total Earnings</span>
+                                <span>Total Read Earnings</span>
                             </div>
                             <div class="text-dark font-weight-bold h5 mb-0">
-                                <span>$1,090</span>
+                                <span>&#x20a6;{{ $total_earn }}</span>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -87,13 +87,13 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
                                     <div class="text-dark font-weight-bold h5 mb-0 mr-3">
-                                        <span>50%</span>
+                                        <span>{{ $read_percentage }}%</span>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="progress progress-sm">
-                                        <div class="progress-bar bg-info progress-bar-animated" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
-                                            <span class="sr-only">50%</span>
+                                        <div class="progress-bar bg-info progress-bar-animated" aria-valuenow="{{ $read_percentage }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $read_percentage }}%;">
+                                            <span class="sr-only">{{ $read_percentage }}%</span>
                                         </div>
                                     </div>
                                 </div>
@@ -115,7 +115,7 @@
                                 <span>tOTAL READS TODAY</span>
                             </div>
                             <div class="text-dark font-weight-bold h5 mb-0">
-                                <span>18</span>
+                                <span>{{ $daily_read }}</span>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -134,7 +134,7 @@
                                 <span>tOTAL LIFETIME READS</span>
                             </div>
                             <div class="text-dark font-weight-bold h5 mb-0">
-                                <span>1,219</span>
+                                <span>{{ $total_read }}</span>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -145,7 +145,7 @@
             </div>
         </div>
     </div>
-    <!-- Start: Chart -->
+    {{-- <!-- Start: Chart -->
     <div class="row">
         <div class="col-lg-7 col-xl-8">
             <div class="card shadow mb-4">
@@ -210,5 +210,5 @@
             </div>
         </div>
     </div>
-    <!-- End: Chart -->
+    <!-- End: Chart --> --}}
 @endsection
