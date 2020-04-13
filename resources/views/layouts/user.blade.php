@@ -60,28 +60,30 @@
                         </div>
                     </li> --}}
 
-                    <li class="nav-item dropdown no-arrow mx-1" role="presentation">
-                        {!! RM::notificationIconMap() !!}
+                    @auth
+                        <li class="nav-item dropdown no-arrow mx-1" role="presentation">
+                            {!! RM::notificationIconMap() !!}
 
-                        <div class="nav-item dropdown no-arrow">
-                            <button id="load-alert-center" class="btn btn-primary dropdown-toggle" data-store="#alert-center" data-url="{{ route('user.alert_center.process') }}" data-page="0" data-toggle="dropdown" aria-expanded="false" type="button">
-                                {!! RM::unreadNotifications() !!}
-                                <i class="fas fa-bell fa-fw"></i>
-                            </button>
+                            <div class="nav-item dropdown no-arrow">
+                                <button id="load-alert-center" class="btn btn-primary dropdown-toggle" data-store="#alert-center" data-url="{{ route('user.alert_center.process') }}" data-page="0" data-toggle="dropdown" aria-expanded="false" type="button">
+                                    {!! RM::unreadNotifications() !!}
+                                    <i class="fas fa-bell fa-fw"></i>
+                                </button>
 
-                            <div class="dropdown-menu dropdown-menu-right dropdown-list dropdown-menu-right animated--grow-in shadow-lg" role="menu">
-                                <h6 class="dropdown-header">
-                                    alerts center
-                                </h6>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-list dropdown-menu-right animated--grow-in shadow-lg" role="menu">
+                                    <h6 class="dropdown-header">
+                                        alerts center
+                                    </h6>
 
-                                <div id="alert-center" class="dropdown-item p-0"></div>
+                                    <div id="alert-center" class="dropdown-item p-0"></div>
 
-                                <a class="text-center dropdown-item small text-gray-500" href="{{ route('user.notifications.page') }}">
-                                    Show All Alerts
-                                </a>
+                                    <a class="text-center dropdown-item small text-gray-500" href="{{ route('user.notifications.page') }}">
+                                        Show All Alerts
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
+                    @endauth
 
                     <div class="d-none d-sm-block topbar-divider"></div>
                     
@@ -215,6 +217,8 @@
 
     @JQUERY()
     @BS_JS()
+    @js(readmoni)
+    @js(general)
     @js(chart.min)
     @js(bs-charts)
     @js(theme)
@@ -223,8 +227,5 @@
     @js(alert-center)
     @yield("page-js")
 
-
-    {{-- <script src="assets/js/edit-profile.js?h=9f91cf91684efcc5e6d9b34bd2b0a8d7"></script>
-    <script src="assets/js/imgPreviewer.js?h=b2a1aead4b26b9e0850c87f9c1a9abfa"></script> --}}
 </body>
 </html>

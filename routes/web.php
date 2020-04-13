@@ -27,11 +27,11 @@ Route::get("/", function(){
 })->name("index");
 
 
-Route::get("/error", function(Request $request){
+Route::get("/error", function(){
     return view(RSP::USER_ERROR);
 })->name("user.error.page");
 
-Route::get("/success", function(Request $request){
+Route::get("/success", function(){
     return view(RSP::USER_SUCCESS);
 })->name("user.success.page");
 
@@ -47,9 +47,11 @@ Route::get("/success", function(Request $request){
         return view(RSP::USER_ABOUT);
     })->name("user.about.page");
     
-    Route::get("/faq", function(){
-        return view(RSP::USER_FAQ);
-    })->name("user.faq.page");
+    Route::get("/faq", "QuestionController@showPage")->name("user.faq.page");
+
+    Route::post("/get_answer", "QuestionController@getAnswer")->name("user.faq.process");
+
+    Route::post('/ask_question', "QuestionController@askQuestion")->name("user.faq.ask");
     
     Route::get("/feedback", function(){
         return view(RSP::USER_FEEDBACK);

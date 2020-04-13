@@ -125,6 +125,9 @@ class NewsController extends Controller
             $newsList[$count]['url'] = route('user.news.view', [
                 'hash' => $thisNews->hash
             ]);
+            if (self::hasBeenRead($thisNews->id, Auth::id())){
+                $newsList[$count]['seen'] = 1;
+            }
             $count++;
         }
         if ($newsList){
