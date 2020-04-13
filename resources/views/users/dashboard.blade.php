@@ -13,9 +13,9 @@
 @section("page-body")
     <div class="d-sm-flex justify-content-between align-items-center mb-4">
         <h3 class="text-dark mb-0">Dashboard</h3>
-        <button class="btn btn-outline-primary btn-sm d-none d-sm-inline-block" type="button">
+        <button class="btn btn-outline-primary btn-sm d-block ml-auto" type="button">
             <i class="fas fa-money-check"></i>
-            &nbsp;Request Payment
+            Request Payment
         </button>
     </div>
     <div class="row">

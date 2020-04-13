@@ -213,7 +213,6 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Providers\ViewShares::class,
-        App\Providers\ReadMoniServiceProvider::class,
 
     ],
 
@@ -267,6 +266,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        'PAY' => App\Facades\PaystackPay::class,
         'RM' => App\Facades\ReadMoni::class,
     ],
 

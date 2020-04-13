@@ -82,7 +82,7 @@ Route::get("/success", function(){
 
     Route::get("/confirm-payment", "ActivateAccountController@handleGatewayCallback")->name("user.activate.confirm.process"); 
     
-    Route::get("/account-activated@{key}", "ActivateAccountController@showAccountActivatedPage")->name("user.activate.success.page");
+    Route::get("/account-activated@{key}", "ActivateAccountController@showAccountActivatedPage")->name("user.activate.success.page")->middleware(['activated']);
     
 
 

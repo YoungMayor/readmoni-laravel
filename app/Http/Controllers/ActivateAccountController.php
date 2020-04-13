@@ -80,7 +80,8 @@ class ActivateAccountController extends Controller
             CURLOPT_POSTFIELDS => json_encode([
                 'amount' => $amount,
                 'email' => $email, 
-                'metadata' => json_encode($metadata)
+                'metadata' => json_encode($metadata), 
+                'callback_url' => route('user.activate.confirm.process')
             ]),
             CURLOPT_HTTPHEADER => [
                 "authorization: Bearer $secretKey",
