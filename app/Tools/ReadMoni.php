@@ -94,4 +94,9 @@ HTML_;
             echo "<option value='{$bank['short_name']}'>{$bank['full_name']}</option>";
         });
     }
+
+    public function bankName($code){
+        $bank = PaystackPay::getBank($code);
+        return $bank['full_name'] ?? null;
+    }
 }

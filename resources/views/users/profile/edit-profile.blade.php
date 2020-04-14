@@ -156,7 +156,7 @@
                 </label>
                 
                 <select class="custom-select" name="bank" required="">
-                    {{ RM::bankSelectOptions() }}
+                    {{ RM::bankSelectOptions($bank->bank_code) }}
                 </select>
             </div>
 

@@ -118,7 +118,7 @@
                 <tbody>
                     <tr>
                         <td>Bank Name</td>
-                        <td>{{ $bank->bank_name ?? "No Bank Set" }}</td>
+                        <td>{{ RM::bankName($bank->bank_code) ?? "No bank setup" }}</td>
                     </tr>
                     <tr>
                         <td>Account Name</td>
