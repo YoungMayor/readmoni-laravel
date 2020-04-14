@@ -73,6 +73,7 @@ class RouteServiceProvider extends ServiceProvider
      * Responses
      */
     public const ERROR_PLAIN = "users.response.err_plain";
+    public const ERROR_MESSAGE = "users.response.err_message";
     public const GOOD_PLAIN = "users.response.good_plain";
 
     

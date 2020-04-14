@@ -151,9 +151,15 @@
     <div class="col">
         <form class="full_ajform" action="{{ route('user.bank.edit') }}" method="post">
             <div class="form-group">
-                <label>Bank Name:</label>
-                <input class="form-control" type="text" name="bank" id="bank" placeholder="Name of Bank in Nigeria" required="" value="{{ $bank->bank_name }}">
+                <label>
+                    Select Bank:
+                </label>
+                
+                <select class="custom-select" name="bank" required="">
+                    {{ RM::bankSelectOptions() }}
+                </select>
             </div>
+
             <div class="form-group">
                 <label>Account Name:</label>
                 <input class="form-control" type="text" name="name" id="name" placeholder="Your account name" required="" value="{{ $bank->account_name }}">

@@ -1,0 +1,1 @@
+curl "https://api.paystack.co/transferrecipient" \ -H "Authorization: Bearer sk_test_e4b7af02b0adcab7ecc27b94e37cd1b1bdfe62ea" -X GET

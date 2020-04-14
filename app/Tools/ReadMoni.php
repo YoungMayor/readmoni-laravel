@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\UserNotificationController AS NOTIF;
+use App\Facades\PaystackPay;
 
 use App\User;
 
@@ -85,5 +86,12 @@ SCRIPT_;
             return <<<HTML_
             <span class="badge badge-danger badge-counter">$count</span>
 HTML_;
+    }
+
+    public function bankSelectOptions(){
+        $banks = PaystackPay::getAllBanks();
+        $banks->each(function($bank){
+            echo "<option value='{$bank['short_name']}'>{$bank['full_name']}</option>";
+        });
     }
 }

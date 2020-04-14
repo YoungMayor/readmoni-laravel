@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 use App\Providers\RouteServiceProvider as RSP;
+use App\Tools\PaystackPay as PAY;
 use App\Tools\ReadMoni as RM;
 use App\User;
 use App\UserBank;
@@ -246,41 +247,63 @@ class UserProfileController extends Controller
     }
 
     public function updateBank(Request $request){
+        $banks = PAY::getAllBanks();
+      
         $validateRule = [
-          'bank' => ['required', 'string', 'min:12', 'max:255'], 
-          'name' => ['required', 'string', 'min:12', 'max:255'], 
+          'bank' => ['required', Rule::in($banks->pluck('short_name')->all())], 
+          'name' => ['required', 'string', 'min:5', 'max:255'], 
           'number' => ['required', 'numeric', 'digits_between:7,32'], 
-          ];
+        ];
       
-          $validateMessages = [
-            'bank.required' => 'The Bank name is required', 
-            'bank.min' => 'Bank Name too short, please review', 
-            'bank.max' => 'Bank Name too long, please review', 
+        $validateMessages = [
+          'bank.required' => 'Please select a bank', 
+          'bank.rule' => 'Select a bank from the given list.', 
 
-            'name.required' => 'The Account name is required', 
-            'name.min' => 'Account Name too short, please review', 
-            'name.max' => 'Account Name too long, please review', 
+          'name.required' => 'The Account name is required', 
+          'name.min' => 'Account Name too short, please review', 
+          'name.max' => 'Account Name too long, please review', 
 
-            'number.required' => 'The Account Number is required', 
-            'number.numeric' => 'Account number should be a number', 
-            'number.digits_between' => 'Account number verification failed', 
-          ];
+          'number.required' => 'The Account Number is required', 
+          'number.numeric' => 'Account number should be a number', 
+          'number.digits_between' => 'Account number verification failed', 
+        ];
       
-          $validator = Validator::make($request->all(), $validateRule, $validateMessages);
-      
-          if ($validator->fails()) {
-            $error['e'] = view(RSP::ERROR_PLAIN, ["errors" => $validator->errors()])->render();
-            return json_encode($error);
-          }
-          $validatedData = $validator->validate();
+        $validator = Validator::make($request->all(), $validateRule, $validateMessages);
+    
+        if ($validator->fails()) {
+          $error['e'] = view(RSP::ERROR_PLAIN, ["errors" => $validator->errors()])->render();
+          return json_encode($error);
+        }
+        $validatedData = $validator->validate();
+        $accountNumber = $validatedData['number'];
+        $bankObj = PAY::getBank($validatedData['bank']);
+        $bankCode = $bankObj['short_code'];
+        $bankName = $bankObj['full_name'];
+
+        $verifiedBank = PAY::verifyAccount($accountNumber, $bankCode);
+
+        if (!$verifiedBank){
+          $error['e'] = view(RSP::ERROR_MESSAGE, ['message' => "Bank Details not correct. Please verify"])->render();
+          return json_encode($error);
+        }
+
+        $accountName = $verifiedBank['name'];
+        $userKey = Auth::user()->user_key;
+
+        $recipientName = "User $userKey - $accountName";
+        $recipientDescription = "Bank Account Details for $userKey - Account Name: $accountName - Account Number: $accountNumber | $bankName";
+        
+        $recipientCode = PAY::createRecipent($recipientName, $accountNumber, $recipientDescription, $bankCode);
 
         $user = UserBank::updateOrCreate(
             [
               'user_key' => Auth::user()->user_key
             ], [
-              'bank_name' => $validatedData['bank'],
-              'account_name' => $validatedData['name'],
-              'account_number' => $validatedData['number'],
+              'bank_name' => $bankObj['full_name'],
+              'account_name' => $verifiedBank['name'],
+              'account_number' => $verifiedBank['number'],
+              'bank_code' => $validatedData['bank'], 
+              'recipient_code' => $recipientCode
             ]
         );
       

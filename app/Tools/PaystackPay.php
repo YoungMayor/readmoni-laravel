@@ -174,18 +174,22 @@ class PaystackPay{
 
     public static function shortCodeToBank($shortCode){
         $banks = self::getAllBanks(); 
-        return $banks->firstWhere('short_code', $shortCode) ?? false;
+        return $banks->firstWhere('short_code', $shortCode) ?? null;
     }
 
     public static function shortNameToBank($shortCode){
         $banks = self::getAllBanks(); 
-        return $banks->firstWhere('short_name', $shortCode) ?? false;
+        return $banks->firstWhere('short_name', $shortCode) ?? null;
+    }
+
+    public static function getBank($code){
+        return self::shortCodeToBank($code) ?? self::shortNameToBank($code) ?? false;
     }
 
     public static function verifyAccount($account_num, $code){
         $secretKey = config('app.PAYSTACK_SECRET_KEY');
 
-        $bank = self::shortCodeToBank($code) ?? self::shortNameToBank($code);
+        $bank = self::getBank($code);
         if (!$bank){
             return false;
         }
@@ -249,7 +253,7 @@ class PaystackPay{
         CURLOPT_CUSTOMREQUEST => "POST",
         CURLOPT_POSTFIELDS => json_encode([
             'type' => 'nuban',
-            'name' => "User $name", 
+            'name' => "$name", 
             'description' => "$desc",
             'account_number' => "$num",
             'bank_code' => "$code",
@@ -280,6 +284,7 @@ class PaystackPay{
 
         $reply = json_decode($response);
         if (!$reply->status){
+
             return false;
         }
         return $reply->data->recipient_code;
