@@ -17,7 +17,7 @@ class DashBoardController extends Controller
         $todayReadCount = NewsController::dailyReadCount(Auth::id());
         $totalReadCount = NewsController::totalReadCount(Auth::id());
         return view(RSP::USER_DASHBOARD, [
-            'daily_earn' => number_format($todayReadCount * config('app.DAILY_READ_LIMIT'),2), 
+            'daily_earn' => number_format($todayReadCount * config('app.READ_BONUS'),2), 
             'balance' => number_format(BalanceController::userBalance(Auth::id()), 2),
             'total_earn' => number_format($totalReadCount * config('app.DAILY_READ_LIMIT'),2), 
             'read_percentage' => number_format((($todayReadCount / config('app.DAILY_READ_LIMIT')) * 100), 2), 
