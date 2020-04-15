@@ -25,6 +25,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('news:update')->twiceDaily(1, 13)->emailOutputTo(config('app.MERCHANT_EMAIL'));
+        $schedule->command('news:count')->twiceDaily(1, 13)->emailOutputTo(config('app.MERCHANT_EMAIL'));
     }
 
     /**

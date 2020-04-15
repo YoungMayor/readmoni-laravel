@@ -27,6 +27,10 @@ class NewsController extends Controller
         "top-news" => "Latest News"
     ];
 
+    public function newsCount($category){
+        return News::where('category', $category)->count();
+    }
+
     public function retrieveNews(){
         $timeLimit = date("Y-m-d H:i:s", strtotime('2 days ago'));
 
@@ -37,8 +41,9 @@ class NewsController extends Controller
             if ($articles){
                 $this->saveToDB($category, $articles);
             }
-            // sleep(3);
+            sleep(1);
         }
+        echo "News Table has been updated";
     }
 
     public function getNewsJSON($category = false){

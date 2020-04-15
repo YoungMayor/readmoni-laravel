@@ -134,12 +134,6 @@ Route::get("/success", function(){
     });    
 
 
-/**
- * NEWS RETRIEVAL URLS
- */    
-Route::get('retrieve_news', 'NewsController@retrieveNews')->name('news.retrieve');
-
-
 
 /**
  * Logout
