@@ -109,6 +109,8 @@ Route::get("/success", function(){
 
         Route::get('/view_news@{hash}', 'NewsController@viewNews')->name('user.news.view');
 
+        Route::get('/request_payout', 'PayoutController@request')->name('user.payout.request');
+
 
         /**
          * Notification Processes

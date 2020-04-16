@@ -297,14 +297,15 @@ class UserProfileController extends Controller
         }
 
         $accountName = $verifiedBank['name'];
-        $userKey = Auth::user()->user_key;
+        $user = Auth::user();
+        $userKey = $user->user_key;
 
         $recipientName = "User $userKey - $accountName";
         $recipientDescription = "Bank Account Details for $userKey - Account Name: $accountName - Account Number: $accountNumber | $bankName";
         
         $recipientCode = PAY::createRecipent($recipientName, $accountNumber, $recipientDescription, $bankCode);
 
-        $user = UserBank::updateOrCreate(
+        $userBank = UserBank::updateOrCreate(
             [
               'user_key' => Auth::user()->user_key
             ], [
@@ -315,9 +316,11 @@ class UserProfileController extends Controller
               'recipient_code' => $recipientCode
             ]
         );
+
+        UserNotificationController::BankChange(Auth::id());
       
-          $response['s'] = view(RSP::GOOD_PLAIN, ["message" => "Account Info has been updated"])->render();
-      
-          return json_encode($response);
+        $response['s'] = view(RSP::GOOD_PLAIN, ["message" => "Account Info has been updated"])->render();
+    
+        return json_encode($response);
     }
 }

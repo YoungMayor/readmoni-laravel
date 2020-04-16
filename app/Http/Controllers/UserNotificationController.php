@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\BankDetailsChanged;
+use App\Notifications\PayoutRequested;
 use Illuminate\Http\Request;
 
 use App\Providers\RouteServiceProvider AS RSP;
@@ -31,6 +33,7 @@ class UserNotificationController extends Controller
         'scc' => 'fa fa-check-square-o bg-success', /** Custom success */
         'lowbal' => 'fas fa-frown bg-danger', /** Insufficient Balance */
         'pytmd' => 'fas fa-wallet bg-success', /** Payment made */
+        'bank' => 'fa fa-bank', /** Bank Details changed */
     ];
     protected static function saveNotification($id, $note, $cat){
         return UserNotification::create([
@@ -72,10 +75,24 @@ class UserNotificationController extends Controller
     }
 
     public static function paymentRequest($userID){
-        $userKey = User::find($userID)->user_key;
+        $user = User::find($userID); 
+        $userKey = $user->user_key;
         $userBank = UserBank::where('user_key', $userKey)->first();
 
         self::saveNotification($userID, "You made a payment request. Payments would be made to </b>{$userBank->account_name} ({$userBank->account_number})</b>. Keep reading to increase your payout", 'pytrq');
+
+        $user->notify(new PayoutRequested($userBank));
+        return true;
+    }
+
+    public static function BankChange($userID){
+        $user = User::find($userID); 
+        $userKey = $user->user_key;
+        $userBank = UserBank::where('user_key', $userKey)->first();
+
+        self::saveNotification($userID, "Your Bank Account Details were successfully changed. New Details are: <b>{$userBank->account_name} ({$userBank->account_number}) | {$userBank->bank_name}</b>", 'bank');
+
+        $user->notify(new BankDetailsChanged($user, $userBank));
         return true;
     }
 

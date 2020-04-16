@@ -13,10 +13,10 @@
 @section("page-body")
     <div class="d-sm-flex justify-content-between align-items-center mb-4">
         <h3 class="text-dark mb-0">Dashboard</h3>
-        <button class="btn btn-outline-primary btn-sm d-block ml-auto" type="button">
+        <a class="btn btn-outline-primary btn-sm d-block ml-auto" href="{{ route('user.payout.request') }}" role="button">
             <i class="fas fa-money-check"></i>
             Request Payment
-        </button>
+        </a>
     </div>
     <div class="row">
         <div class="col-md-6 col-xl-3 mb-4">
