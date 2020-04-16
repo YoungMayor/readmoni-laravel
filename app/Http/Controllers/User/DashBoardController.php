@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
+
+use App\Http\Controllers\BalanceController;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\User\NewsController;
 
 use App\Providers\RouteServiceProvider AS RSP;
 
 use Illuminate\Support\Facades\Auth;
-
-use App\Http\Controllers\BalanceController;
-use App\Http\Controllers\NewsController;
 
 class DashBoardController extends Controller
 {

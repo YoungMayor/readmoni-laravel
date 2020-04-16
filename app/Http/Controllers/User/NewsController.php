@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
+
+use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider as RSP;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-// use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use App\Providers\RouteServiceProvider as RSP;
+
+use App\Balance;
 use App\News;
 use App\NewsRead;
-use App\Balance;
 
 use App\Http\Controllers\BalanceController;
 

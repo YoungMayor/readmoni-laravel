@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\UserNotificationController;
+use App\Http\Controllers\User\UserNotificationController;
 
 use Illuminate\Support\Facades\DB;
 

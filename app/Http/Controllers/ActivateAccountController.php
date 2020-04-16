@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use App\Providers\RouteServiceProvider as RSP;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 
 use App\User;
 use App\RegistrationPayments as PAYMENT;

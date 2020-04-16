@@ -1,10 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
+
+use App\Http\Controllers\BalanceController;
+use App\Http\Controllers\Controller;
 
 use App\Payout;
 use App\User;
 use App\UserBank;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

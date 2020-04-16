@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Providers\RouteServiceProvider AS RSP;
+use Illuminate\Http\Request;
 use App\Question;
 
 use Illuminate\Support\Facades\Validator;

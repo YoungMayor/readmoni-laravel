@@ -15,6 +15,9 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     protected $namespace = 'App\Http\Controllers';
+    protected $admin_namespace = 'App\Http\Controllers\Admin';
+    protected $owner_namespace = 'App\Http\Controllers\Owner';
+    protected $user_namespace = 'App\Http\Controllers\User';
 
     /**
      * The path to the "home" route for your application.
@@ -100,10 +103,14 @@ class RouteServiceProvider extends ServiceProvider
     public function map()
     {
         $this->mapApiRoutes();
+        
+        $this->mapAuthUserRoutes();
+        
+        $this->mapAdminRoutes();
+        
+        $this->mapOwnerRoutes();
 
         $this->mapWebRoutes();
-
-        //
     }
 
     /**
@@ -118,6 +125,51 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/web.php'));
+    }
+
+    /**
+     * Define the "Administrators Routes" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapAdminRoutes()
+    {
+        Route::middleware(['web','is_admin'])
+            ->prefix('admin')
+            ->namespace($this->admin_namespace)
+            ->group(base_path('routes/admin.php'));
+    }
+
+    /**
+     * Define the "Owners Routes" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapOwnerRoutes()
+    {
+        Route::middleware(['web','is_owner'])
+            ->prefix('owner')
+            ->namespace($this->owner_namespace)
+            ->group(base_path('routes/owner.php'));
+    }
+
+    /**
+     * Define the "Routes for Authenticated, Verified And Activated User Accounts" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapAuthUserRoutes()
+    {
+        Route::middleware(['web','verified', 'activated'])
+            ->prefix('user')
+            ->namespace($this->user_namespace)
+            ->group(base_path('routes/user.php'));
     }
 
     /**

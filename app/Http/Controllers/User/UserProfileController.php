@@ -1,6 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
+
+use App\Http\Controllers\Controller;
+
+use App\Providers\RouteServiceProvider as RSP;
+use App\Tools\PaystackPay as PAY;
+use App\Tools\ReadMoni as RM;
+
+use Intervention\Image\Facades\Image;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -8,12 +16,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-use App\Providers\RouteServiceProvider as RSP;
-use App\Tools\PaystackPay as PAY;
-use App\Tools\ReadMoni as RM;
 use App\User;
 use App\UserBank;
-use Intervention\Image\Facades\Image;
 
 class UserProfileController extends Controller
 {

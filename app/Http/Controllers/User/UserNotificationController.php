@@ -1,20 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
+
+use App\Http\Controllers\Controller;
+
+use App\Facades\ReadMoni AS RM;
 
 use App\Notifications\BankDetailsChanged;
 use App\Notifications\PayoutRequested;
-use Illuminate\Http\Request;
 
 use App\Providers\RouteServiceProvider AS RSP;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use App\UserNotification;
 use App\User;
 use App\UserBank;
 
-
-use Illuminate\Support\Facades\Auth;
-use RM;
 
 
 class UserNotificationController extends Controller

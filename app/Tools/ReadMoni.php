@@ -5,7 +5,7 @@ namespace App\Tools;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
-use App\Http\Controllers\UserNotificationController AS NOTIF;
+use App\Http\Controllers\User\UserNotificationController AS NOTIF;
 use App\Facades\PaystackPay;
 
 use App\User;
