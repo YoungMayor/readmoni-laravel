@@ -36,7 +36,7 @@ class UserNotificationController extends Controller
         'scc' => 'fa fa-check-square-o bg-success', /** Custom success */
         'lowbal' => 'fas fa-frown bg-danger', /** Insufficient Balance */
         'pytmd' => 'fas fa-wallet bg-success', /** Payment made */
-        'bank' => 'fa fa-bank', /** Bank Details changed */
+        'bank' => 'fa fa-bank bg-success', /** Bank Details changed */
     ];
     protected static function saveNotification($id, $note, $cat){
         return UserNotification::create([

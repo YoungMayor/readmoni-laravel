@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Request;
 */
 
 Route::get('/', function(){
-    return "Welcome to Owner Panel";
-})->name('owner.index');
+    return "Welcome to Owner Panel - Site Summary";
+})->name('owner.site.summary.page');
+
+Route::get('/admins', function(){
+    return "Welcome to Owner Panel - Admin Management";
+})->name('owner.admins.page');
 

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Storage;
@@ -102,6 +103,18 @@ HTML_;
                 <small class="aj_response aj_success"></small>
             </div>
 HTML_;
+        });
+
+        Blade::if('role', function($expression){
+            return Auth::user()->role == $expression;
+        });
+
+        Blade::if('isOwner',function(){
+            return in_array(Auth::user()->role, ['owner']);
+        });
+
+        Blade::if('isAdmin',function(){
+            return in_array(Auth::user()->role, ['owner', 'admin']);
         });
     }
 

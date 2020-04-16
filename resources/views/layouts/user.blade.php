@@ -134,7 +134,7 @@
                 <ul class="nav navbar-nav text-light" id="accordionSidebar">
                     @auth
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" href="{{ route('user.profile.page') }}">
+                            <a class="nav-link p-1" href="{{ route('user.profile.page') }}">
                                 <div>
                                     <img class="rounded-circle img-fluid profile-avatar" src="{{ RM::avatar() }}">
                                 </div>
@@ -147,18 +147,59 @@
                         </li>
 
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" href="{{ route('user.dashboard.page') }}">
+                            <a class="nav-link p-1" href="{{ route('user.dashboard.page') }}">
                                 <i class="fas fa-tachometer-alt"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
 
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" href="{{ route('user.news.page') }}">
+                            <a class="nav-link p-1" href="{{ route('user.news.page') }}">
                                 <i class="far fa-newspaper"></i>
                                 <span>Read News</span>
                             </a>
                         </li>
+
+                        @isAdmin
+                            <div class="h6 small text-center bg-gradient-dark p-1">
+                                Admin Controls
+                            </div>
+                            
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link p-1" href="{{ route('admin.payouts.page') }}">
+                                    <i class="fas fa-wallet"></i>
+                                    <span>Payout Requests</span>
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link p-1" href="{{ route('admin.faq.page') }}">
+                                    <i class="fas fa-question"></i>
+                                    <span>FAQ's</span>
+                                </a>
+                            </li>
+                        @endisAdmin
+
+                        @isOwner
+                            <div class="h6 small text-center bg-gradient-dark p-1">
+                                Owners Controls
+                            </div>
+
+                            
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link p-1" href="{{ route('owner.site.summary.page') }}">
+                                    <i class="far fa-newspaper"></i>
+                                    <span>Site Summary</span>
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link p-1" href="{{ route('owner.admins.page') }}">
+                                    <i class="fas fa-user-secret"></i>
+                                    <span>Manage Admins</span>
+                                </a>
+                            </li>
+                        @endisOwner
 
                         {{-- Messages Link, temporarily disabled --}}
                         {{-- <li class="nav-item" role="presentation">

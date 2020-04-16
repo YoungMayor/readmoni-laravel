@@ -17,5 +17,17 @@ use Illuminate\Support\Facades\Request;
 */
 
 Route::get('/', function(){
-    return "Welcome to admin";
-})->name('admin.index');
+    return view(RSP::ADMIN_SUMMARY);
+})->name('admin.site.summary.page');
+
+Route::get('/payouts', function(){
+    return view(RSP::ADMIN_PAYOUT);
+})->name('admin.payouts.page');
+
+Route::get('/audit/{user}', function(){
+    return view(RSP::ADMIN_AUDIT);
+})->name('admin.audit.page');
+
+Route::get('/faq', function(){ 
+    return view(RSP::ADMIN_FAQ);
+})->name('admin.faq.page');

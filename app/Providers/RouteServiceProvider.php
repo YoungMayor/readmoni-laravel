@@ -81,6 +81,16 @@ class RouteServiceProvider extends ServiceProvider
     public const ERROR_MESSAGE = "users.response.err_message";
     public const GOOD_PLAIN = "users.response.good_plain";
 
+
+
+    /**
+     * Admin Pages
+     */
+    public const ADMIN_SUMMARY = "admin.summary";
+    public const ADMIN_PAYOUT = "admin.payouts";
+    public const ADMIN_AUDIT = "admin.audit";
+    public const ADMIN_FAQ = "admin.faq";
+
     
 
     /**
