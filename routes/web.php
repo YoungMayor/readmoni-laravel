@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Providers\RouteServiceProvider as RSP;
+use Illuminate\Support\Facades\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -138,10 +139,14 @@ Route::get("/success", function(){
 /**
  * Logout
  */
-Route::get("logout", function(){
+Route::get("logout", function(Request $request){
+    return view(RSP::USER_LOGOUT);
+})->name("user.logout.page");
+
+Route::post("logout", function(){
     Auth::logout();
     return redirect()->route("index");
-})->name("user.logout.page");
+})->name("user.logout.process");
 
 
 Route::fallback(function(){

@@ -42,6 +42,8 @@ class RouteServiceProvider extends ServiceProvider
      * Auth Pages
      */
     public const USER_LOGIN = "users.auth.login";
+    public const USER_LOGOUT = "users.auth.logout";
+
     public const USER_ACTIVATE = "users.auth.activate";
     public const USER_REGISTER = "users.auth.register";
 
