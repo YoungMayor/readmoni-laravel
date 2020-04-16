@@ -214,6 +214,12 @@ return [
 
         App\Providers\ViewShares::class,
 
+
+        /**
+         * 3rd Party Providers
+         */
+        Intervention\Image\ImageServiceProvider::class
+
     ],
 
     /*
@@ -266,6 +272,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        'Image' => Intervention\Image\Facades\Image::class,
         'PAY' => App\Facades\PaystackPay::class,
         'RM' => App\Facades\ReadMoni::class,
     ],

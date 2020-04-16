@@ -13,6 +13,7 @@ use App\Tools\PaystackPay as PAY;
 use App\Tools\ReadMoni as RM;
 use App\User;
 use App\UserBank;
+use Intervention\Image\Facades\Image;
 
 class UserProfileController extends Controller
 {
@@ -38,37 +39,45 @@ class UserProfileController extends Controller
 
     
     function changeAvatar(Request $request){
-        $validateRule = [
-            'avatar' => [
-                'required', 
-                'image', 
-                'mimes:jpeg,jpg,png,svg,gif', 
-                'max:2048', 
-                'min:10'
-            ]
-        ];
+      $validateRule = [
+        'avatar' => [
+          'required', 
+          'image', 
+          'mimes:jpeg,jpg,png,svg,gif', 
+          'max:2048', 
+          'min:10'
+        ]
+      ];
 
-        $validateMessages = [
-            'avatar.required' => 'Select a file to use as your avatar',
-            'avatar.image' => 'The file you uploaded is not a valid image, please review this',
-            'avatar.mimes' => 'Invalid file selected',
-            'avatar.min' => 'Please select a bigger image file',
-            'avatar.max' => 'Your avatar should not exceed 2mb in size',
-        ];
-
-        $validatedData = Validator::make($request->all(), $validateRule, $validateMessages)->validate();
-
-        $oldAvatar = Auth::user()->avatar;
-    
-        $avatarURL = $request->file('avatar')->store('/', 'avatar');
         
-        Storage::disk("avatar")->delete($oldAvatar);
+      $validateMessages = [
+        'avatar.required' => 'Select a file to use as your avatar',
+        'avatar.image' => 'The file you uploaded is not a valid image, please review this',
+        'avatar.mimes' => 'Invalid file selected',
+        'avatar.min' => 'Please select a bigger image file',
+        'avatar.max' => 'Your avatar should not exceed 2mb in size',
+      ];
 
-        $user = User::updateOrCreate(
-            ["id" => Auth::id()],
-            ["avatar" => $avatarURL]
-        );
-        return redirect()->back()->with(['avatar_succes' => 'New Avatar uploaded']);
+      $validatedData = Validator::make($request->all(), $validateRule, $validateMessages)->validate();
+
+      $oldAvatar = Auth::user()->avatar;
+
+      $avatarName = $request->file('avatar')->store('/', 'avatar');
+      $avatarPath = Storage::disk('avatar')->path($avatarName);
+
+      $img = Image::make($avatarPath);
+      // $img->resize(640, 640, function ($constraint) {
+      //   $constraint->aspectRatio();
+      // })->save($avatarPath);
+      $img->fit(640)->save($avatarPath);
+        
+      Storage::disk("avatar")->delete($oldAvatar);
+
+      $user = User::updateOrCreate(
+          ["id" => Auth::id()],
+          ["avatar" => $avatarName]
+      );
+      return redirect()->back()->with(['avatar_succes' => 'New Avatar uploaded']);
     }
 
     public function updateNick(Request $request){
