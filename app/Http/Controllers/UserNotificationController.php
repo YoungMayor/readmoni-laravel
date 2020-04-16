@@ -92,7 +92,7 @@ class UserNotificationController extends Controller
 
         self::saveNotification($userID, "Your Bank Account Details were successfully changed. New Details are: <b>{$userBank->account_name} ({$userBank->account_number}) | {$userBank->bank_name}</b>", 'bank');
 
-        $user->notify(new BankDetailsChanged($user, $userBank));
+        $user->notify(new BankDetailsChanged($userBank));
         return true;
     }
 

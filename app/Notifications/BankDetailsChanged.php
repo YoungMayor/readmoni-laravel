@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Auth;
 
 class BankDetailsChanged extends Notification
 {
@@ -18,9 +19,9 @@ class BankDetailsChanged extends Notification
      *
      * @return void
      */
-    public function __construct(User $user, UserBank $bank)
+    public function __construct(UserBank $bank)
     {
-        $this->user = $user;
+        $this->user = Auth::user();
         $this->bank = $bank;
     }
 
@@ -45,7 +46,8 @@ class BankDetailsChanged extends Notification
     {
         return (new MailMessage)
                     ->subject(config('app.name').' - Bank Details Modified')
-                    ->greeting("Hello {$this->user->full_name} ({$this->user->user_key})")
+                    ->greeting("Bank Details Modified")
+                    ->line("Hello {$this->user->full_name} ({$this->user->user_key})")
                     ->line('Your '.config('app.name').' Account Bank Account Details has just been modified. The new details are:')
                     ->line('Bank Name:      '.$this->bank->bank_name)
                     ->line('Account Name:   '.$this->bank->account_name)

@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Auth;
 
 class PayoutRequested extends Notification
 {
@@ -21,6 +22,7 @@ class PayoutRequested extends Notification
      */
     public function __construct(UserBank $bank)
     {
+        $this->user = Auth::user();
         $this->bank = $bank;
     }
 
@@ -46,6 +48,7 @@ class PayoutRequested extends Notification
         return (new MailMessage)
                     ->subject(config('app.name').' - Payment Request Received')
                     ->greeting('Payout Request Successful')
+                    ->line("Hello {$this->user->full_name} ({$this->user->user_key})")
                     ->line('Your request to be paid has been received and is been processed by our Administrators.')
                     ->line('Payments will be made to:')
                     ->line('Bank Name:      '.$this->bank->bank_name)
