@@ -40,7 +40,7 @@ class PayoutController extends Controller
                             ->join('users', 'payouts.user_id', 'users.id')
                             ->join('balances', 'payouts.user_id', 'balances.user_id')
                             ->select('*', 'payouts.id as req_id', 'users.id as user_id')
-                            ->latest()
+                            ->latest('payouts.created_at')
                             ->simplePaginate(25);
 
         $payoutList = [];

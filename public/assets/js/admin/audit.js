@@ -14,7 +14,7 @@ function auditHistory(){
 
     this.makeCard = function(elem){
         var thisTemplate = $(bar.card).clone();
-        console.log(thisTemplate);
+
         $(thisTemplate).addClass(elem.cls); 
         $(thisTemplate).find('.date').html(elem.dte);
         $(thisTemplate).find('.name').html(elem.nme);

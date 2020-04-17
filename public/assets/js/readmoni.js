@@ -1,7 +1,7 @@
 function ReadMONI(){
     this.toDOMElement = function(exp){
         var wrapper = document.createElement('div');
-        wrapper.innerHTML = exp;
+        $(wrapper).html(exp);
         return wrapper.firstChild;
     }
 }

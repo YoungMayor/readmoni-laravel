@@ -137,7 +137,7 @@ class UserAuditController extends Controller
         foreach($payments as $thisPayment){
             $list[$ind] = [
                 'dte' => date("jS, M, y", strtotime($thisPayment->pay_date)),
-                'name' => $thisPayment->full_name, 
+                'nme' => $thisPayment->full_name, 
                 'amt' => number_format($thisPayment->paid_amt, 2), 
                 'cls' => $thisPayment->payout_code == 'cancelled'? 'table-danger' : 'table-success'
             ];
