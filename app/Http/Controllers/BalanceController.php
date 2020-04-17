@@ -57,4 +57,8 @@ class BalanceController extends Controller
     public static function userBalance($id){
         return Balance::where('user_id', $id)->first()->amount ?? 0;
     }
+
+    public static function totalPendingFunds(){
+        return Balance::get()->sum('amount');
+    }
 }

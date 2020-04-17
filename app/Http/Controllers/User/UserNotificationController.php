@@ -7,8 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Facades\ReadMoni AS RM;
 
 use App\Notifications\BankDetailsChanged;
+use App\Notifications\PaymentRequestCancelled;
 use App\Notifications\PayoutRequested;
-
+use App\Payout;
 use App\Providers\RouteServiceProvider AS RSP;
 
 use Illuminate\Http\Request;
@@ -36,11 +37,13 @@ class UserNotificationController extends Controller
         'scc' => 'fa fa-check-square-o bg-success', /** Custom success */
         'lowbal' => 'fas fa-frown bg-danger', /** Insufficient Balance */
         'pytmd' => 'fas fa-wallet bg-success', /** Payment made */
+        'pytcan' => 'fas fa-wallet bg-danger', /** Payment cancelled */
         'bank' => 'fa fa-bank bg-success', /** Bank Details changed */
     ];
-    protected static function saveNotification($id, $note, $cat){
+    protected static function saveNotification($id, $note, $cat, $author = NULL){
         return UserNotification::create([
             'user_id' => $id, 
+            'author_id' => $author,
             'note' => $note, 
             'category' => $cat
         ]);
@@ -99,13 +102,13 @@ class UserNotificationController extends Controller
         return true;
     }
 
-    public static function customError($id, $note){
-        self::saveNotification($id, $note, 'err');
+    public static function customError($id, $note, $author){
+        self::saveNotification($id, $note, 'err', $author);
         return true;
     }
 
-    public static function customSuccess($id, $note){
-        self::saveNotification($id, $note, 'scc');
+    public static function customSuccess($id, $note, $author){
+        self::saveNotification($id, $note, 'scc', $author);
        
        return true;
     }
@@ -124,6 +127,18 @@ class UserNotificationController extends Controller
         $id = 1;
         $note = "In response to your payment request made May 10th, 2020. You have been paid N1,260. Payments were made to Meyoron Aghogho Happiness (12345678900)";
         self::saveNotification($id, $note, 'pytmd');
+    }
+
+    public static function payoutCancelled($payoutID){
+        $payout = Payout::find($payoutID);
+        $userID = $payout->user_id;
+        $user = User::find($userID);
+
+        $createDate = date("M jS, Y", strtotime($payout->created_at));
+        $note = "Your payment request made $createDate, was cancelled by our Administrative Team.";
+        self::saveNotification($userID, $note, 'pytcan');
+        $user->notify(new PaymentRequestCancelled());
+        return true;
     }
 
     public function showPage(){

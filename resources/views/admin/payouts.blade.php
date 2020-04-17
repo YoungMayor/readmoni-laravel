@@ -3,18 +3,21 @@
 @section("title", "ReadMONI")
 
 @section("page-css")
-
+@css(admin/payouts)
 @endsection
 
 @section("page-js")
-
+@js(ajax-forms)
+@js(admin/payouts)
 @endsection
 
 @section("page-body")
-<div class="d-sm-flex justify-content-between align-items-center mb-4">
+
+<div class="d-sm-flex justify-content-between align-items-center mb-4" style="margin-top: 50px;">
     <h3 class="text-dark mb-0">Payout Requests</h3>
 </div>
-<!-- Start: Account Summary -->
+
+@isOwner
 <div class="row">
     <div class="col">
         <div class="table-responsive small">
@@ -22,15 +25,21 @@
                 <tbody>
                     <tr>
                         <td>Account Balance</td>
-                        <td class="text-right">N192,000.00</td>
+                        <td class="text-right">
+                            &#x20A6;{{ $PS_Bal }}
+                        </td>
                     </tr>
                     <tr>
                         <td>User Funds</td>
-                        <td class="text-right">N120,000.00</td>
+                        <td class="text-right">
+                            &#x20A6;{{ $User_Fund }}
+                        </td>
                     </tr>
                     <tr>
                         <td>Profit/Loss</td>
-                        <td class="table-success text-right">N72,000.00</td>
+                        <td class="table-{{ $rem_class }} text-right">
+                            &#x20A6;{{ $reminant }}
+                        </td>
                     </tr>
                     <tr>
                         <td></td>
@@ -38,132 +47,42 @@
                     </tr>
                     <tr>
                         <td>Pending Payouts</td>
-                        <td>17</td>
+                        <td class="text-right">
+                            {{ $pending }}
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-<!-- End: Account Summary -->
-<!-- Start: Payout List -->
-<div id="payout_requests">
+@endisOwner
+
+
+<form id="multi_pay_form" action="{{ route('admin.mass.payouts.process') }}" class="full_ajform" method="POST">
+    @csrf
+    <div id="payout_requests">
+    </div>
+
     <div class="border rounded shadow-lg" id="pay_selected_users_block">
-        <!-- Start: Split Button Success --><a class="btn btn-success btn-icon-split" role="button" id="pay_selected_users"><span class="text-white-50 icon"><i class="fas fa-dollar-sign"></i></span><span class="text-white text">Pay Selected Users</span></a>
-        <!-- End: Split Button Success -->
+        <button class="btn btn-success btn-icon-split" type="submit" id="pay_selected_users">
+            <span class="text-white-50 icon">
+                <i class="fas fa-dollar-sign"></i>
+            </span>
+            <span class="text-white text">
+                Pay Selected Users
+            </span>
+        </button>
     </div>
-    <!-- Start: Payout -->
-    <div class="row align-items-center border-bottom pb-2 pt-2">
-        <div class="col">
-            <div class="custom-control custom-checkbox"><input class="custom-control-input mass_payout" type="checkbox" id="user-1" value="1" name="mass_payout"><label class="custom-control-label" for="user-1">AB-1234C <strong>Meyoron Aghogho Happiness</strong></label></div>
-        </div>
-        <div class="col-auto"><span>N4,000</span></div>
-        <div class="col-auto">
-            <div class="btn-group" role="group"><a class="btn btn-outline-info btn-sm mr-2" role="button" href="audit.html" target="_blank">Audit</a>
-                <!-- Start: Split Button Success --><a class="btn btn-success btn-sm btn-icon-split" role="button"><span class="text-white-50 icon"><i class="fas fa-dollar-sign"></i></span><span class="text-white text">Pay</span></a>
-                <!-- End: Split Button Success -->
-            </div>
-        </div>
-    </div>
-    <!-- End: Payout -->
-    <!-- Start: Payout -->
-    <div class="row align-items-center border-bottom pb-2 pt-2">
-        <div class="col">
-            <div class="custom-control custom-checkbox"><input class="custom-control-input mass_payout" type="checkbox" id="user-1" value="1" name="mass_payout"><label class="custom-control-label" for="user-1">AB-1234C <strong>Meyoron Aghogho Happiness</strong></label></div>
-        </div>
-        <div class="col-auto"><span>N4,000</span></div>
-        <div class="col-auto">
-            <div class="btn-group" role="group"><a class="btn btn-outline-info btn-sm mr-2" role="button" href="audit.html" target="_blank">Audit</a>
-                <!-- Start: Split Button Success --><a class="btn btn-success btn-sm btn-icon-split" role="button"><span class="text-white-50 icon"><i class="fas fa-dollar-sign"></i></span><span class="text-white text">Pay</span></a>
-                <!-- End: Split Button Success -->
-            </div>
-        </div>
-    </div>
-    <!-- End: Payout -->
-    <!-- Start: Payout -->
-    <div class="row align-items-center border-bottom pb-2 pt-2">
-        <div class="col">
-            <div class="custom-control custom-checkbox"><input class="custom-control-input mass_payout" type="checkbox" id="user-1" value="1" name="mass_payout"><label class="custom-control-label" for="user-1">AB-1234C <strong>Meyoron Aghogho Happiness</strong></label></div>
-        </div>
-        <div class="col-auto"><span>N4,000</span></div>
-        <div class="col-auto">
-            <div class="btn-group" role="group"><a class="btn btn-outline-info btn-sm mr-2" role="button" href="audit.html" target="_blank">Audit</a>
-                <!-- Start: Split Button Success --><a class="btn btn-success btn-sm btn-icon-split" role="button"><span class="text-white-50 icon"><i class="fas fa-dollar-sign"></i></span><span class="text-white text">Pay</span></a>
-                <!-- End: Split Button Success -->
-            </div>
-        </div>
-    </div>
-    <!-- End: Payout -->
-    <!-- Start: Payout -->
-    <div class="row align-items-center border-bottom pb-2 pt-2">
-        <div class="col">
-            <div class="custom-control custom-checkbox"><input class="custom-control-input mass_payout" type="checkbox" id="user-1" value="1" name="mass_payout"><label class="custom-control-label" for="user-1">AB-1234C <strong>Meyoron Aghogho Happiness</strong></label></div>
-        </div>
-        <div class="col-auto"><span>N4,000</span></div>
-        <div class="col-auto">
-            <div class="btn-group" role="group"><a class="btn btn-outline-info btn-sm mr-2" role="button" href="audit.html" target="_blank">Audit</a>
-                <!-- Start: Split Button Success --><a class="btn btn-success btn-sm btn-icon-split" role="button"><span class="text-white-50 icon"><i class="fas fa-dollar-sign"></i></span><span class="text-white text">Pay</span></a>
-                <!-- End: Split Button Success -->
-            </div>
-        </div>
-    </div>
-    <!-- End: Payout -->
-    <!-- Start: Payout -->
-    <div class="row align-items-center border-bottom pb-2 pt-2">
-        <div class="col">
-            <div class="custom-control custom-checkbox"><input class="custom-control-input mass_payout" type="checkbox" id="user-1" value="1" name="mass_payout"><label class="custom-control-label" for="user-1">AB-1234C <strong>Meyoron Aghogho Happiness</strong></label></div>
-        </div>
-        <div class="col-auto"><span>N4,000</span></div>
-        <div class="col-auto">
-            <div class="btn-group" role="group"><a class="btn btn-outline-info btn-sm mr-2" role="button" href="audit.html" target="_blank">Audit</a>
-                <!-- Start: Split Button Success --><a class="btn btn-success btn-sm btn-icon-split" role="button"><span class="text-white-50 icon"><i class="fas fa-dollar-sign"></i></span><span class="text-white text">Pay</span></a>
-                <!-- End: Split Button Success -->
-            </div>
-        </div>
-    </div>
-    <!-- End: Payout -->
-    <!-- Start: Payout -->
-    <div class="row align-items-center border-bottom pb-2 pt-2">
-        <div class="col">
-            <div class="custom-control custom-checkbox"><input class="custom-control-input mass_payout" type="checkbox" id="user-1" value="1" name="mass_payout"><label class="custom-control-label" for="user-1">AB-1234C <strong>Meyoron Aghogho Happiness</strong></label></div>
-        </div>
-        <div class="col-auto"><span>N4,000</span></div>
-        <div class="col-auto">
-            <div class="btn-group" role="group"><a class="btn btn-outline-info btn-sm mr-2" role="button" href="audit.html" target="_blank">Audit</a>
-                <!-- Start: Split Button Success --><a class="btn btn-success btn-sm btn-icon-split" role="button"><span class="text-white-50 icon"><i class="fas fa-dollar-sign"></i></span><span class="text-white text">Pay</span></a>
-                <!-- End: Split Button Success -->
-            </div>
-        </div>
-    </div>
-    <!-- End: Payout -->
-    <!-- Start: Payout -->
-    <div class="row align-items-center border-bottom pb-2 pt-2">
-        <div class="col">
-            <div class="custom-control custom-checkbox"><input class="custom-control-input mass_payout" type="checkbox" id="user-1" value="1" name="mass_payout"><label class="custom-control-label" for="user-1">AB-1234C <strong>Meyoron Aghogho Happiness</strong></label></div>
-        </div>
-        <div class="col-auto"><span>N4,000</span></div>
-        <div class="col-auto">
-            <div class="btn-group" role="group"><a class="btn btn-outline-info btn-sm mr-2" role="button" href="audit.html" target="_blank">Audit</a>
-                <!-- Start: Split Button Success --><a class="btn btn-success btn-sm btn-icon-split" role="button"><span class="text-white-50 icon"><i class="fas fa-dollar-sign"></i></span><span class="text-white text">Pay</span></a>
-                <!-- End: Split Button Success -->
-            </div>
-        </div>
-    </div>
-    <!-- End: Payout -->
-    <!-- Start: Payout -->
-    <div class="row align-items-center border-bottom pb-2 pt-2">
-        <div class="col">
-            <div class="custom-control custom-checkbox"><input class="custom-control-input mass_payout" type="checkbox" id="user-1" value="1" name="mass_payout"><label class="custom-control-label" for="user-1">AB-1234C <strong>Meyoron Aghogho Happiness</strong></label></div>
-        </div>
-        <div class="col-auto"><span>N4,000</span></div>
-        <div class="col-auto">
-            <div class="btn-group" role="group"><a class="btn btn-outline-info btn-sm mr-2" role="button" href="audit.html" target="_blank">Audit</a>
-                <!-- Start: Split Button Success --><a class="btn btn-success btn-sm btn-icon-split" role="button"><span class="text-white-50 icon"><i class="fas fa-dollar-sign"></i></span><span class="text-white text">Pay</span></a>
-                <!-- End: Split Button Success -->
-            </div>
-        </div>
-    </div>
-    <!-- End: Payout -->
-</div>
-<!-- End: Payout List -->
+</form>    
+
+
+<button id="load-requests" class="btn btn-light btn-icon-split mt-4 ml-auto mr-auto d-block auto-load" type="button" data-url="{{ route('admin.payouts.process') }}" data-page="0">
+    <span class="text-black-50 icon">
+        <i class="fas fa-clipboard-list"></i>
+    </span>
+    <span class="text-dark text">
+        Load more
+    </span>
+</button>
 @endsection

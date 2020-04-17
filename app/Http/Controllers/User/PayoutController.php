@@ -26,7 +26,7 @@ class PayoutController extends Controller
             ]);
         }
 
-        $pendigPyt = $this->pendingPayout(Auth::id());
+        $pendigPyt = self::pendingPayout(Auth::id());
         if ($pendigPyt){
             return redirect()->route('user.error.page')->with([
                 'note' => "We apologise for delay. Your payment has been received and is being processed"
@@ -48,8 +48,12 @@ class PayoutController extends Controller
         ]);
     }
 
-    protected function pendingPayout($id){
+    public static function pendingPayout($id){
         return Payout::where('user_id', $id)->whereNull('paid_amt')->count();
+    }
+
+    public static function totalPending(){
+        return Payout::whereNull('payee_id')->whereNull('paid_amt')->whereNull('payout_code')->count();
     }
 
     public static function payableAmount($amount){

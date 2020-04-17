@@ -382,4 +382,9 @@ class PaystackPay{
         }
         return $reply;
     }
+
+
+    public static function getBalance(){
+        return 190000;
+    }
 }

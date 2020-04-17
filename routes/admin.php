@@ -20,13 +20,13 @@ Route::get('/', function(){
     return view(RSP::ADMIN_SUMMARY);
 })->name('admin.site.summary.page');
 
-Route::get('/payouts', function(){
-    return view(RSP::ADMIN_PAYOUT);
-})->name('admin.payouts.page');
+Route::get('/payouts', "PayoutController@show")->name('admin.payouts.page');
+Route::post('/payout', "PayoutController@retrieve")->name('admin.payouts.process');
+Route::get('/payout/cancel/{user_id}', "PayoutController@cancelPayout")->name('admin.payouts.cancel');
+Route::post('/mass_payouts', "PayoutController@massPayout")->name('admin.mass.payouts.process');
 
-Route::get('/audit/{user}', function(){
-    return view(RSP::ADMIN_AUDIT);
-})->name('admin.audit.page');
+Route::get('/audit/{user_key}', "UserAuditController@show")->name('admin.audit.page');
+Route::post('/audit/notify_user', 'UserAuditController@sendMessage')->name('admin.audit.message.user');
 
 Route::get('/faq', function(){ 
     return view(RSP::ADMIN_FAQ);
