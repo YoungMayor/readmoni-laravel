@@ -9,6 +9,7 @@ use App\Http\Controllers\User\UserNotificationController;
 use App\Providers\RouteServiceProvider as RSP;
 use App\User;
 use App\UserBank;
+use App\Payout;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -82,6 +83,75 @@ class UserAuditController extends Controller
 
         $response['s'] = view(RSP::GOOD_PLAIN, ["message" => "Message sent"])->render();
       
+        return json_encode($response);
+    }
+
+    public function getHistory(Request $request){
+        $vRule = [
+            'page' => [
+                'required', 
+                'numeric'
+            ], 
+            'user' => [
+                'required', 
+                'exists:users,id',
+            ], 
+            'type' => [
+                'required', 
+                Rule::in(['payment', 'transfer'])
+            ]
+        ];
+
+        $validator = Validator::make($request->all(), $vRule);
+
+        if ($validator->fails()) {
+            $response['list'] = [];
+            $response['next'] = $request->page;
+            return json_encode($response);
+        }
+
+        switch ($request->type) {
+            case 'payment':
+                return $this->getPayment($request);
+                break;
+            
+            case 'transfer':
+                //
+                break;
+        }
+
+        $response['s'] = view(RSP::GOOD_PLAIN, ["message" => "Message sent"])->render();
+      
+        return json_encode($response);
+    }
+
+    protected function getPayment(Request $request){
+        $payments = Payout::where('user_id', $request->user)
+                    ->join('users', 'payouts.payee_id', 'users.id')
+                    ->select('*', 'payouts.updated_at AS pay_date')
+                    ->latest('payouts.updated_at')
+                    ->simplePaginate();
+        
+        $list = [];
+        $ind = 0;
+        foreach($payments as $thisPayment){
+            $list[$ind] = [
+                'dte' => date("jS, M, y", strtotime($thisPayment->pay_date)),
+                'name' => $thisPayment->full_name, 
+                'amt' => number_format($thisPayment->paid_amt, 2), 
+                'cls' => $thisPayment->payout_code == 'cancelled'? 'table-danger' : 'table-success'
+            ];
+            $ind++;
+        }
+        
+        if ($list){
+            $response['list'] = $list;
+            $response['next'] = $payments->currentPage() + 1;
+        }else{
+            $response['list'] = [];
+            $response['next'] = $payments->currentPage();
+        }
+
         return json_encode($response);
     }
 }

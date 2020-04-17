@@ -8,6 +8,7 @@
 
 @section("page-js")
 @js(ajax-forms)
+@js(admin/audit)
 @endsection
 
 @section("page-body")
@@ -26,40 +27,27 @@
     </div>
     <div class="col-12">
         <div class="table-responsive table-bordered">
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover small">
                 <thead>
                     <tr class="table-dark">
                         <th>Date</th>
-                        <th>Paid by</th>
+                        <th>Processed by</th>
                         <th>Amount</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>10-May-20</td>
-                        <td>Meyoron Aghogho</td>
-                        <td>N19,000</td>
-                    </tr>
-                    <tr>
-                        <td>10-May-20</td>
-                        <td>Meyoron Aghogho</td>
-                        <td>N19,000</td>
-                    </tr>
-                    <tr>
-                        <td>10-May-20</td>
-                        <td>Meyoron Aghogho</td>
-                        <td>N19,000</td>
-                    </tr>
-                    <tr>
-                        <td>10-May-20</td>
-                        <td>Meyoron Aghogho</td>
-                        <td>N19,000</td>
-                    </tr>
-                </tbody>
+                <tbody id="payment-history"></tbody>
             </table>
         </div>
-        <!-- Start: Split Button Light --><button class="btn btn-light shadow-sm btn-icon-split m-auto d-block" type="button"><span class="text-black-50 icon"><i class="fas fa-arrow-down"></i></span><span class="text-dark text">Load More Record</span></button>
-        <!-- End: Split Button Light -->
+        
+        <button class="btn btn-light shadow-sm btn-icon-split m-auto d-block get-audit-history" type="button" data-url="{{ route('admin.audit.history.payments') }}" data-page="0" data-target="#payment-history" data-for="{{ $user->id }}" data-type="payment">
+            <span class="text-black-50 icon">
+                <i class="fas fa-arrow-down"></i>
+            </span>
+            
+            <span class="text-dark text">
+                Load More Record
+            </span>
+        </button>
     </div>
 </div>
 

@@ -28,6 +28,8 @@ Route::post('/mass_payouts', "PayoutController@massPayout")->name('admin.mass.pa
 Route::get('/audit/{user_key}', "UserAuditController@show")->name('admin.audit.page');
 Route::post('/audit/notify_user', 'UserAuditController@sendMessage')->name('admin.audit.message.user');
 
+Route::post('/audit/history/payments', 'UserAuditController@getHistory')->name('admin.audit.history.payments');
+
 Route::get('/faq', function(){ 
     return view(RSP::ADMIN_FAQ);
 })->name('admin.faq.page');
