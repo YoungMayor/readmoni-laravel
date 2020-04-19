@@ -8,6 +8,7 @@ use App\Facades\ReadMoni AS RM;
 
 use App\Notifications\BankDetailsChanged;
 use App\Notifications\PaymentRequestCancelled;
+use App\Notifications\PayoutMade;
 use App\Notifications\PayoutRequested;
 use App\Payout;
 use App\Providers\RouteServiceProvider AS RSP;
@@ -87,7 +88,7 @@ class UserNotificationController extends Controller
 
         self::saveNotification($userID, "You made a payment request. Payments would be made to </b>{$userBank->account_name} ({$userBank->account_number})</b>. Keep reading to increase your payout", 'pytrq');
 
-        $user->notify(new PayoutRequested($userBank));
+        $user->notify(new PayoutRequested($user, $userBank));
         return true;
     }
 
@@ -98,7 +99,7 @@ class UserNotificationController extends Controller
 
         self::saveNotification($userID, "Your Bank Account Details were successfully changed. New Details are: <b>{$userBank->account_name} ({$userBank->account_number}) | {$userBank->bank_name}</b>", 'bank');
 
-        $user->notify(new BankDetailsChanged($userBank));
+        $user->notify(new BankDetailsChanged($user, $userBank));
         return true;
     }
 
@@ -119,14 +120,18 @@ class UserNotificationController extends Controller
         self::saveNotification($id, "Your payment request could not be honored due to insufficient funds. You need a minimum of <b>$minPyt</b> before cashouts can be made.", 'lowbal');
     }
 
-    public function payoutMade($payoutID){
-        /**
-         * @todo would be developed fully after payouts mechanism is built
-         */
-        // $payout =
-        $id = 1;
-        $note = "In response to your payment request made May 10th, 2020. You have been paid N1,260. Payments were made to Meyoron Aghogho Happiness (12345678900)";
-        self::saveNotification($id, $note, 'pytmd');
+    public static function payoutMade($payoutID){
+        $payout = Payout::find($payoutID);
+        $paidAmt = $payout->paid_amt;
+        $userID = $payout->user_id;
+        $user = User::find($userID);
+        $userBank = UserBank::where('user_key', $user->user_key)->first();
+
+        $createDate = date("M jS, Y", strtotime($payout->created_at));
+        $note = "In response to your payment request made $createDate. You have been paid &#x20A6;$paidAmt. Payments were made to {$userBank->account_name} ({$userBank->account_number}) - {$userBank->bank_name}";
+        self::saveNotification($userID, $note, 'pytmd');
+        $user->notify(new PayoutMade($user, $payout, $userBank));
+        return true;
     }
 
     public static function payoutCancelled($payoutID){

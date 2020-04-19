@@ -339,6 +339,73 @@ class PaystackPay{
         return $reply->data->transfer_code;
     }
 
+    /**
+     * Make Bulk Payments to a collection of users. 
+     * 
+     * @todo Verify PayStack Account and remove the hack line on this method
+     *
+     * @param [collection] $payouts A collection of users built up of
+     * Payout, User, Balance, UserBank
+     * @return boolean
+     */
+    public static function payRecipient_bulk($payouts){
+        return true; /** Hack Line  */
+
+        $transfers = [];
+        foreach ($payouts as $payout){
+            $transfers[] = [
+                'amount' => $payout->paid_amount,
+                'recipient' => $payout->recipient_code, 
+                'reference' => $payout->payout_code
+            ];
+        }
+        $secretKey = config('app.PAYSTACK_SECRET_KEY');
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.paystack.co/transfer",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => json_encode([
+            'source' => 'balance',
+            'currency' => 'NGN', 
+            'transfers' => $transfers
+        ]),
+        CURLOPT_HTTPHEADER => array(
+            "Authorization: Bearer $secretKey",
+            "content-type: application/json",
+            "Cache-Control: no-cache",
+        ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            /**
+             * @todo Log Error to paystack channel
+             * // Log::channel('activation')->error("Payment Verification failed. cUrl returned: $err. Transaction Reference: {$reference}");
+             */
+
+            return redirect()->route("user.error.page")->with('error', "An error occurred");
+
+            die();
+        }
+
+        $reply = json_decode($response);
+        if ($reply->status != true || $reply->status != "pending"){
+            return false;
+        }
+        return $reply->data;
+    }
+
     public static function getAllRecipents($page, $count){
         $secretKey = config('app.PAYSTACK_SECRET_KEY');
 
@@ -385,6 +452,46 @@ class PaystackPay{
 
 
     public static function getBalance(){
-        return 190000;
+        $secretKey = config('app.PAYSTACK_SECRET_KEY');
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.paystack.co/balance",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_HTTPHEADER => array(
+            "Authorization: Bearer $secretKey",
+            "content-type: application/json",
+            "Cache-Control: no-cache",
+        ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            /**
+             * @todo Log Error to paystack channel
+             * // Log::channel('activation')->error("Payment Verification failed. cUrl returned: $err. Transaction Reference: {$reference}");
+             */
+
+            return 0;
+
+            die();
+        }
+
+        $reply = json_decode($response);
+        if ($reply->status != true){
+            return 0;
+        }
+
+        return $reply->data[0]->balance ?? 0;
     }
 }

@@ -1,60 +1,9 @@
-function Payouts(){
+function Payouts() {
     var bar = this;
 
-    this.card = RM.toDOMElement('\
-<div class="row align-items-center border-bottom pb-2 pt-2">\
-    <div class="col">\
-        <div class="custom-control custom-checkbox">\
-            <input class="custom-control-input mass_payout" type="checkbox" id="" value="" data-amt="" name="mass_payout[]" />\
-            <label class="custom-control-label mass_payout_label" for="">\
-                <span class="user_key"></span>\
-                <strong class="user_name"></strong>\
-            </label>\
-        </div>\
-    </div>\
-\
-    <div class="col-auto">\
-        &#x20A6;<span class="amount"></span>\
-    </div>\
-\
-    <div class="col-auto">\
-        <div class="btn-group" role="group">\
-            <a class="btn btn-outline-info btn-sm mr-2 audit_link" role="button" href="" target="_blank">\
-                Audit\
-            </a>\
-\
-            <button class="btn btn-success btn-sm btn-icon-split pay_user" data-reqid="" role="button">\
-                <span class="text-white-50 icon">\
-                    <i class="fas fa-dollar-sign"></i>\
-                </span>\
-                <span class="text-white text">Pay</span>\
-            </button>\
-        </div>\
-    </div>\
-</div>\
-');
-
-    this.makeMarkup = function(elem){
-        var thisTemplate = $(bar.card).clone();
-
-        $(thisTemplate).find('.mass_payout')
-                .attr('id', 'request-'+elem.rid)
-                .attr('data-amt', elem.csh_rw)
-                .val(elem.rid);
-        $(thisTemplate).find('.mass_payout_label')
-                .attr('for', 'request-'+elem.rid);
-        $(thisTemplate).find('.user_key').html(elem.key);
-        $(thisTemplate).find('.user_name').html(elem.nme);
-        $(thisTemplate).find('.amount').html(elem.csh_fm);
-        $(thisTemplate).find('.audit_link').attr('href', elem.aud);
-        $(thisTemplate).find('.pay_user').attr('data-reqid', elem.rid);
-        
-        return thisTemplate;
-    };
-
-    this.getRequests = function(btn){
-        var thisBTN = $(btn); 
-        if ($(thisBTN).attr('data-loading') == 'true'){
+    this.getRequests = function(btn) {
+        var thisBTN = $(btn);
+        if ($(thisBTN).attr('data-loading') == 'true') {
             return false;
         }
         var thisURL = $(thisBTN).attr("data-url");
@@ -82,7 +31,7 @@ function Payouts(){
                 bar.loadStop(thisBTN);
             },
             error: function() {
-    //             $(thisError).html("There was an error with your request");
+                //             $(thisError).html("There was an error with your request");
             },
             statusCode: {
                 419: function() {
@@ -90,11 +39,10 @@ function Payouts(){
                 },
             },
             success: function(response) {
-                if (response.list){
-                    for (var i in response.list){
+                if (response.list) {
+                    for (var i in response.list) {
                         var thisElem = response.list[i];
-                        var markup = bar.makeMarkup(thisElem);
-                        $(thisTarget).append(markup);
+                        REQUESTS.requests.push(thisElem);
                     }
                 }
                 $(thisBTN).attr('data-page', response.next);
@@ -102,25 +50,115 @@ function Payouts(){
         });
     };
 
-    this.multiPay = function(){
-        
-    }
-
-
-    this.loadStart = function(btn){
+    this.loadStart = function(btn) {
         $(btn).append($(loadingICON).clone());
         $(btn).attr('data-loading', 'true');
     }
 
-    this.loadStop = function(btn){
-        $(btn).removeAttr('data-loading'); 
+    this.loadStop = function(btn) {
+        $(btn).removeAttr('data-loading');
         $(btn).find('.loading-icon').remove();
     }
 }
 
-let PAYOUTS = new Payouts();
+var REQUESTS = new Vue({
+    el: "#payouts_form",
+    data: {
+        requests: [],
+        bar: this,
+        showSubmitContainer: '',
+        selectedUsersCount: 'None',
+        grandCost: '0',
+        selectedFields: [],
+        loadingClass: 'fa fa-spin fa-spinner',
+        dollarClass: 'fas fa-dollar-sign',
+        loadingBTNIcon: 'fas fa-dollar-sign',
+        submitBTNDisabled: false,
+    },
+    methods: {
+        attachEvent() {
+            var selected = Number($(".mass_payout:checked").length);
 
-$("#load-requests").on('click', function(){
-    PAYOUTS.getRequests(this);
+            if (selected >= 1) {
+                this.selectedUsersCount = selected;
+                this.showSubmitContainer = "show_block";
+            } else {
+                this.selectedUsersCount = 'None'
+                this.showSubmitContainer = "";
+            }
+            this.calculateCost();
+        },
+        calculateCost() {
+            var bar = this;
+            bar.grandCost = 0
+            $(".mass_payout:checked").each(function() {
+                bar.grandCost += Number($(this).attr("data-amt"));
+            });
+        },
+        saveSelectedFields() {
+            var bar = this;
+            bar.selectedFields = [];
+            $(".mass_payout:checked").each(function() {
+                var thisID = $(this).val();
+                bar.selectedFields.push(thisID);
+            })
+        },
+        deleteSelectedFields() {
+            var bar = this;
+            this.requests = this.requests.filter(function(arg) {
+                return !bar.selectedFields.includes(String(arg.rid));
+            });
+            $(".mass_payout:checked").prop('checked', false)
+            this.attachEvent();
+        },
+        submitForm(e) {
+            var bar = this;
+            var thisForm = $(e.target)[0]
+            var thisFormTarget = $(thisForm).attr("action");
+            var formData = new FormData(thisForm);
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-Token': $("meta[name='csrf-token']").attr("content")
+                }
+            });
+
+            $.ajax({
+                method: "POST",
+                url: thisFormTarget,
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: "JSON",
+                beforeSend: function() {
+                    bar.saveSelectedFields();
+                    bar.loadingBTNIcon = bar.loadingClass;
+                    bar.submitBTNDisabled = true;
+                },
+                complete: function() {
+                    bar.loadingBTNIcon = bar.dollarClass;
+                    bar.submitBTNDisabled = false;
+                },
+                error: function() {
+
+                },
+                statusCode: {
+                    419: function() {
+                        location.reload();
+                    },
+                },
+                success: function(response) {
+                    if (response.paid) {
+                        bar.deleteSelectedFields();
+                    }
+                },
+            });
+        }
+    }
 });
 
+let PAYOUTS = new Payouts();
+
+$("#load-requests").on('click', function() {
+    PAYOUTS.getRequests(this);
+});

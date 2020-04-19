@@ -34,6 +34,14 @@ class BalanceController extends Controller
 
         return true;
     }
+    
+    public static function payoutMade($userID, $amount, $request_id){
+        self::debitAccount($userID, $amount);
+        
+        UserNotificationController::payoutMade($request_id);
+
+        return true;
+    }
 
     public static function readBonus($id){
         return self::creditAccount($id, config('app.READ_BONUS'));

@@ -10,7 +10,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 
-class BankDetailsChanged extends Notification
+class BankDetailsChanged extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -19,9 +19,9 @@ class BankDetailsChanged extends Notification
      *
      * @return void
      */
-    public function __construct(UserBank $bank)
+    public function __construct(User $user, UserBank $bank)
     {
-        $this->user = Auth::user();
+        $this->user = $user;
         $this->bank = $bank;
     }
 

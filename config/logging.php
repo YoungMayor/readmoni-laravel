@@ -61,6 +61,13 @@ return [
             'days' => 30,
         ],
 
+        'payments' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/payments/laravel.log'),
+            'level' => 'debug',
+            'days' => 30,
+        ],
+
         'maillog' => [
             'driver' => 'daily',
             'path' => storage_path('logs/mails/laravel.log'),

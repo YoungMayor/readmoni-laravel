@@ -55,6 +55,11 @@ _HTML_;
         });
 
 
+        Blade::directive("Vue_JS", function($expression){
+            return "<script src='{{ asset('assets/js/Vue.js') }}'></script>";
+        });
+
+
         Blade::directive("js", function($expression){
             $this->assetVersion($expression, $file, $version);
 

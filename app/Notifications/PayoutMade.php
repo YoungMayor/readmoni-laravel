@@ -2,28 +2,29 @@
 
 namespace App\Notifications;
 
+use App\Payout;
 use App\User;
 use App\UserBank;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Auth;
 
-class PayoutRequested extends Notification implements ShouldQueue
+class PayoutMade extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public $bank, $user;
+    protected $user, $payout, $bank;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(User $user, UserBank $bank)
+    public function __construct(User $user, Payout $payout, UserBank $bank)
     {
         $this->user = $user;
+        $this->payout = $payout;
         $this->bank = $bank;
     }
 
@@ -47,17 +48,15 @@ class PayoutRequested extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject(config('app.name').' - Payment Request Received')
-                    ->greeting('Payout Request Successful')
-                    ->line("Hello {$this->user->full_name} ({$this->user->user_key})")
-                    ->line('Your request to be paid has been received and is been processed by our Administrators.')
-                    ->line('Payments will be made to:')
+                    ->subject(config('app.name').' - Payout Successful')
+                    ->greeting('Congratulations '.$this->user->fill_name)
+                    ->line("In response to your payoy request made {$this->payout->created_at}. You have just been paid &#x20A6;{$this->payout->paid_amt}.")
+                    ->line('Payments were made to the bank details configured on your '.config('app.name').' account:')
                     ->line('Bank Name:      '.$this->bank->bank_name)
                     ->line('Account Name:   '.$this->bank->account_name)
                     ->line('Account Number: '.$this->bank->account_number)
-                    ->line('Payment requests are handled in less than 7 days...')
                     // ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->line('Spread the word!');
     }
 
     /**

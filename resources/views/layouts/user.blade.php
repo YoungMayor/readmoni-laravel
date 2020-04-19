@@ -258,6 +258,7 @@
 
     @JQUERY()
     @BS_JS()
+    @Vue_JS()
     @js(readmoni)
     @js(general)
     @js(chart.min)
