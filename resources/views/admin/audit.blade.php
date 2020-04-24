@@ -128,7 +128,9 @@
 <div class="row mt-5">
     @if ($requested)
     <div class="col-12 p-3 text-center">
-        <a class="btn btn-success btn-lg btn-icon-split m-auto" role="button">
+        <a class="btn btn-success btn-sm btn-icon-split m-1 mb-3" href="{{ route('admin.payouts.pay.process', [
+            'user_key' => $user->user_key
+        ]) }}" role="button">
             <span class="text-white-50 icon">
                 <i class="fas fa-dollar-sign"></i>
             </span>
@@ -137,8 +139,8 @@
             </span>
         </a>
 
-        <a class="btn btn-danger btn-lg btn-icon-split m-auto" href="{{ route('admin.payouts.cancel', [
-            'user_id' => $user->id
+        <a class="btn btn-danger btn-sm btn-icon-split m-1 mb-3" href="{{ route('admin.payouts.cancel.process', [
+            'user_key' => $user->user_key
         ]) }}" role="button">
             <span class="text-white-50 icon">
                 <i class="fas fa-trash"></i>

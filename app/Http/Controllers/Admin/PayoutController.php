@@ -60,7 +60,13 @@ class PayoutController extends Controller
                 'aud' => route('admin.audit.page', [
                     'user_key' => $thisPayout->user_key
                 ]), 
-                'pay_err' => $thisPayout->recipient_code == null
+                'pay_err' => $thisPayout->recipient_code == null, 
+                'purl' => route('admin.payouts.pay.process', [
+                    'user_key' => $thisPayout->user_key
+                ]),
+                'xurl' => route('admin.payouts.cancel.process', [
+                    'user_key' => $thisPayout->user_key
+                ])
             ];
             $ind++;
         }

@@ -18,6 +18,11 @@
     @css(general, 3)
     @css(animate.min, 1)
     @yield('page-css')
+
+    
+    @Vue_JS()
+
+    <script data-ad-client="ca-pub-9777382863618110" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 
 <body id="page-top">
@@ -258,7 +263,6 @@
 
     @JQUERY()
     @BS_JS()
-    @Vue_JS()
     @js(readmoni)
     @js(general)
     @js(chart.min)

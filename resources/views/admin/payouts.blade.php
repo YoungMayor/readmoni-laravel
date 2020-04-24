@@ -86,12 +86,21 @@
                         Audit
                     </a>
 
-                    <button class="btn btn-sm btn-icon-split pay_user" type="button" role="button" v-bind:data-reqid="request.rid" v-bind:class="{ 'btn-danger' : request.pay_err, 'btn-success' : !request.pay_err }" v-bind:disabled="request.pay_err">
+                    <button class="btn btn-sm btn-icon-split mr-2 payout_process" type="button" role="button" v-bind:data-url="request.purl" v-bind:class="{ 'btn-danger' : request.pay_err, 'btn-success' : !request.pay_err }" v-bind:disabled="request.pay_err">
                         <span class="text-white-50 icon">
-                            <i class="fas fa-dollar-sign"></i>
+                            <i class="fas" v-bind:class="{ 'fa-close' : request.pay_err, 'fa-dollar-sign' : !request.pay_err }"></i>
                         </span>
                         <span class="text-white text">
-                            @{{ request.pay_err ? 'Bank Error' : 'Pay' }}
+                            @{{ request.pay_err ? 'Error' : 'Pay' }}
+                        </span>
+                    </button>
+
+                    <button class="btn btn-sm btn-icon-split btn-danger payout_process" type="button" role="button" v-bind:data-url="request.xurl">
+                        <span class="text-white-50 icon">
+                            <i class="fas fa-trash"></i>
+                        </span>
+                        <span class="text-white text">
+                            Cancel
                         </span>
                     </button>
                 </div>
@@ -123,7 +132,7 @@
         </div>
     </div>
     
-    <button id="load-requests" class="btn btn-light btn-icon-split mt-4 ml-auto mr-auto d-block auto-load" type="button" data-url="{{ route('admin.payouts.process') }}" data-page="0">
+    <button id="load-requests" class="btn btn-light btn-icon-split mt-4 ml-auto mr-auto d-block auto-load" type="button" data-url="{{ route('admin.payouts.list.process') }}" data-page="0">
         <span class="text-black-50 icon">
             <i class="fas fa-clipboard-list"></i>
         </span>

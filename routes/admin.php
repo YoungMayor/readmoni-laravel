@@ -21,9 +21,11 @@ Route::get('/', function(){
 })->name('admin.site.summary.page');
 
 Route::get('/payouts', "PayoutController@show")->name('admin.payouts.page');
-Route::post('/payout', "PayoutController@retrieve")->name('admin.payouts.process');
-Route::get('/payout/cancel/{user_id}', "PayoutController@cancelPayout")->name('admin.payouts.cancel');
-Route::post('/mass_payouts', "PayoutController@massPayout")->name('admin.mass.payouts.process');
+Route::post('/payouts/list', "PayoutController@retrieve")->name('admin.payouts.list.process');
+
+Route::get('/payout/pay/{user_key}', "PayoutController@retrieve")->name('admin.payouts.pay.process');
+Route::post('/payout/pay/mass', "PayoutController@massPayout")->name('admin.mass.payouts.process');
+Route::get('/payout/cancel/{user_key}', "PayoutController@cancelPayout")->name('admin.payouts.cancel.process');
 
 Route::get('/audit/{user_key}', "UserAuditController@show")->name('admin.audit.page');
 Route::post('/audit/notify_user', 'UserAuditController@sendMessage')->name('admin.audit.message.user');
