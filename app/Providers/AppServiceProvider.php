@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Tools\FlutterwavePay;
 use App\Tools\PaystackPay;
 use App\Tools\ReadMoni;
 use Illuminate\Support\Facades\Schema;
@@ -21,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->bind('PaystackPay', function(){
             return new PaystackPay;
+        });
+        $this->app->bind('FlutterwavePay', function(){
+            return new FlutterwavePay;
         });
     }
 

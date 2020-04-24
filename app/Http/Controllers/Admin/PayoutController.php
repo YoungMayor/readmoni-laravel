@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Facades\PaystackPay AS PAY;
+use App\Facades\PAY;
 use App\Http\Controllers\BalanceController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\User\PayoutController as UserPayoutController;

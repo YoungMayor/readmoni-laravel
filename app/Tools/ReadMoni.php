@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\User\UserNotificationController AS NOTIF;
-use App\Facades\PaystackPay;
+use App\Facades\PAY;
 
 use App\User;
 
@@ -89,14 +89,14 @@ HTML_;
     }
 
     public function bankSelectOptions(){
-        $banks = PaystackPay::getAllBanks();
+        $banks = PAY::getAllBanks();
         $banks->each(function($bank){
             echo "<option value='{$bank['short_name']}'>{$bank['full_name']}</option>";
         });
     }
 
     public function bankName($code){
-        $bank = PaystackPay::getBank($code);
+        $bank = PAY::getBank($code);
         return $bank['full_name'] ?? null;
     }
 }

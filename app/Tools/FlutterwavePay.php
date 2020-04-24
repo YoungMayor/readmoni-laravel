@@ -1,22 +1,27 @@
 <?php
 
-namespace App\Tools;
+/**
+ * Mechanism build incomplete
+ */
+
+namespace App\Tools; 
 
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 
-class PaystackPay{
+class FlutterwavePay{
     public const BANKS = [
         [
-            'id' => '1', 
+            'id' => '191', 
             'full_name' => 'Access Bank', 
             'short_name' => 'acc', 
-            'full_code' => '044150149', 
+            'full_code' => '044', 
             'short_code' => '044', 
 
         ],
+        /** 
         [
             'id' => '27', 
             'full_name' => 'ALAT by WEMA', 
@@ -24,79 +29,81 @@ class PaystackPay{
             'full_code' => '035150103', 
             'short_code' => '035A', 
             
-        ],
+        ], 
+        */
         [
-            'id' => '2', 
+            'id' => '145', 
             'full_name' => 'CitiBank Nigeria', 
             'short_name' => 'citi', 
-            'full_code' => '023150005', 
+            'full_code' => '023', 
             'short_code' => '023', 
             
         ],
         [
-            'id' => '3', 
+            'id' => '170', 
             'full_name' => 'Diamond Access Bank', 
             'short_name' => 'dab', 
-            'full_code' => '063150162', 
+            'full_code' => '063', 
             'short_code' => '063', 
 
         ],
         [
-            'id' => '4', 
+            'id' => '152', 
             'full_name' => 'Ecobank Nigeria', 
             'short_name' => 'eco', 
-            'full_code' => '050150010', 
+            'full_code' => '050', 
             'short_code' => '050', 
 
         ],
         [
-            'id' => '6', 
+            'id' => '144', 
             'full_name' => 'Fidelity Bank', 
             'short_name' => 'fid', 
-            'full_code' => '070150003', 
+            'full_code' => '070', 
             'short_code' => '070', 
 
         ],
         [
-            'id' => '7', 
+            'id' => '137', 
             'full_name' => 'First Bank of Nigeria', 
             'short_name' => 'fbn', 
-            'full_code' => '011151003', 
+            'full_code' => '011', 
             'short_code' => '011', 
 
         ],
         [
-            'id' => '8', 
+            'id' => '186', 
             'full_name' => 'First City Monument Bank', 
             'short_name' => 'fcmb', 
-            'full_code' => '214150018', 
+            'full_code' => '214', 
             'short_code' => '214', 
 
         ],
         [
-            'id' => '9', 
+            'id' => '177', 
             'full_name' => 'Guaranty Trust Bank', 
             'short_name' => 'gtb', 
-            'full_code' => '058152036', 
+            'full_code' => '058', 
             'short_code' => '058', 
 
         ],
         [
-            'id' => '10', 
+            'id' => '175', 
             'full_name' => 'Heritage Bank', 
             'short_name' => 'htb', 
-            'full_code' => '030159992', 
+            'full_code' => '030', 
             'short_code' => '030', 
 
         ],
         [
-            'id' => '11', 
+            'id' => '181', 
             'full_name' => 'Keystone Bank', 
             'short_name' => 'ksb', 
-            'full_code' => '082150017', 
+            'full_code' => '082', 
             'short_code' => '082', 
 
         ],
+        /**
         [
             'id' => '13', 
             'full_name' => 'Polaris Bank', 
@@ -105,67 +112,76 @@ class PaystackPay{
             'short_code' => '076', 
 
         ],
+        */
         [
-            'id' => '14', 
+            'id' => '180', 
+            'full_name' => 'Skye Bank', 
+            'short_name' => 'skye', 
+            'full_code' => '076', 
+            'short_code' => '076', 
+
+        ],
+        [
+            'id' => '158', 
             'full_name' => 'Stanbic IBTC Bank', 
             'short_name' => 'stan', 
-            'full_code' => '221159522', 
+            'full_code' => '221', 
             'short_code' => '221', 
 
         ],
         [
-            'id' => '15', 
+            'id' => '142', 
             'full_name' => 'Standard Chartered Bank', 
             'short_name' => 'scb', 
-            'full_code' => '068150015', 
+            'full_code' => '068', 
             'short_code' => '068', 
 
         ],
         [
-            'id' => '16', 
+            'id' => '179', 
             'full_name' => 'Sterling Bank', 
             'short_name' => 'ster', 
-            'full_code' => '232150016', 
+            'full_code' => '232', 
             'short_code' => '232', 
 
         ],
         [
-            'id' => '17', 
+            'id' => '190', 
             'full_name' => 'Union Bank of Nigeria', 
             'short_name' => 'unib', 
-            'full_code' => '032080474', 
-            'short_code' => '032', 
-
-        ],
-        [
-            'id' => '18', 
-            'full_name' => 'United Bank for Africa', 
-            'short_name' => 'uba', 
-            'full_code' => '033153513', 
+            'full_code' => '033', 
             'short_code' => '033', 
 
         ],
         [
-            'id' => '19', 
+            'id' => '178', 
+            'full_name' => 'United Bank for Africa', 
+            'short_name' => 'uba', 
+            'full_code' => '032', 
+            'short_code' => '032', 
+
+        ],
+        [
+            'id' => '146', 
             'full_name' => 'Unity Bank', 
             'short_name' => 'unit', 
-            'full_code' => '215154097', 
+            'full_code' => '215', 
             'short_code' => '215', 
 
         ],
         [
-            'id' => '20', 
+            'id' => '168', 
             'full_name' => 'Wema Bank', 
             'short_name' => 'wem', 
-            'full_code' => '035150103', 
+            'full_code' => '035', 
             'short_code' => '035', 
 
         ],
         [
-            'id' => '21', 
+            'id' => '141', 
             'full_name' => 'Zenith Bank', 
             'short_name' => 'zen', 
-            'full_code' => '057150013', 
+            'full_code' => '057', 
             'short_code' => '057', 
 
         ],
@@ -200,19 +216,23 @@ class PaystackPay{
         ];
         $amount = config("app.REGISTRATION_FEE") * 100; 
         
-        $secretKey = config('app.PAYSTACK_SECRET_KEY');
+        $secretKey = config('app.FLUTTERWAVE_SECRET_KEY');
+        $pubKey = config('app.FLUTTERWAVE_PUBLIC_KEY');
         
         
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.paystack.co/transaction/initialize",
+            CURLOPT_URL => "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/hosted/pay",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CUSTOMREQUEST => "POST",
             CURLOPT_POSTFIELDS => json_encode([
                 'amount' => $amount,
-                'email' => $email, 
+                'customer_email' => $email, 
+                'currency' => 'NGN', 
+                'txref' => 'REG_PYT-'.$key.uniqid(),
+                'PBFPubKey' => $pubKey,
                 'metadata' => json_encode($metadata), 
-                'callback_url' => route('user.activate.confirm.process')
+                'redirect_url' => route('user.activate.confirm.process')
             ]),
             CURLOPT_HTTPHEADER => [
                 "authorization: Bearer $secretKey",
@@ -235,24 +255,30 @@ class PaystackPay{
 
         $tranx = json_decode($response);
 
-        if(!$tranx->status){
-            Log::channel('activation')->error("Paystack API Transaction error: {$tranx->message}. For User: {$key}. Full Error: {$response}");
+        if(!$tranx->data && !$tranx->data->link){
+            Log::channel('activation')->error("Flutterwave API Transaction error: {$tranx->message}. For User: {$key}. Full Error: {$response}");
 
             return redirect()->route("user.error.page")->with('error', "An error occurred during payment");
 
             die();
         }
 
-        return redirect($tranx->data->authorization_url);
+        return redirect($tranx->data->link);
     }
 
     public static function verifyRegRef($reference, &$redirect = false){
-        $secretKey = config('app.PAYSTACK_SECRET_KEY');
+        $secretKey = config('app.FLUTTERWAVE_SECRET_KEY');
         
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.paystack.co/transaction/verify/" . rawurlencode($reference),
+            CURLOPT_URL => "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/verify",
             CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_POSTFIELDS => json_encode([
+                'SECKEY' => $secretKey,
+                'txref' => $reference,
+            ]),
             CURLOPT_HTTPHEADER => [
                 "accept: application/json",
                 "authorization: Bearer $secretKey",
@@ -274,8 +300,10 @@ class PaystackPay{
         return json_decode($response);
     }
 
+
     public static function verifyAccount($account_num, $code){
-        $secretKey = config('app.PAYSTACK_SECRET_KEY');
+        $secretKey = config('app.FLUTTERWAVE_SECRET_KEY');
+        $publicKey = config('app.FLUTTERWAVE_PUBLIC_KEY');
 
         $bank = self::getBank($code);
         if (!$bank){
@@ -287,15 +315,20 @@ class PaystackPay{
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => "https://api.paystack.co/bank/resolve?account_number=$account_num&bank_code=$bankCode",
+        CURLOPT_URL => "https://api.ravepay.co/flwv3-pug/getpaidx/api/resolve_account",
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => "",
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 30,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "GET",
+        // CURLOPT_ENCODING => "",
+        // CURLOPT_MAXREDIRS => 10,
+        // CURLOPT_TIMEOUT => 30,
+        // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => json_encode([
+            'recipientaccount' => $account_num,
+            'destbankcode' => $bankCode, 
+            'PBFPubKey' => $publicKey
+        ]),
         CURLOPT_HTTPHEADER => array(
-            "Authorization: Bearer $secretKey",
+            "content-type: application/json",
             "Cache-Control: no-cache",
         ),
         ));
@@ -317,12 +350,15 @@ class PaystackPay{
         }
 
         $reply = json_decode($response);
-        if (!$reply->status){
+        echo $account_num;
+        echo $bankCode;
+        dd($reply);
+        if (!$reply->data->data->responsecode == "00"){
             return false;
         }
         return [
-            'name' => $reply->data->account_name, 
-            'number' => $reply->data->account_number, 
+            'name' => $reply->data->data->accountname, 
+            'number' => $reply->data->data->accountnumber, 
         ];
     }
 
@@ -379,8 +415,6 @@ class PaystackPay{
     }
 
     public static function payRecipent($amount, $recipient, $reason){
-        return false; /** Hack line */
-
         $secretKey = config('app.PAYSTACK_SECRET_KEY');
 
         $curl = curl_init();
@@ -439,7 +473,7 @@ class PaystackPay{
      * @return boolean
      */
     public static function payRecipient_bulk($payouts){
-        return false; /** Hack Line  */
+        return true; /** Hack Line  */
 
         $transfers = [];
         foreach ($payouts as $payout){

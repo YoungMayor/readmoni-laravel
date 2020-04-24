@@ -5,7 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 
 use App\Providers\RouteServiceProvider as RSP;
-use App\Tools\PaystackPay as PAY;
+use App\Facades\PAY;
 use App\Tools\ReadMoni as RM;
 
 use Intervention\Image\Facades\Image;

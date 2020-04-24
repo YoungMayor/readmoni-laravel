@@ -135,6 +135,11 @@ return [
     'PAYSTACK_PUBLIC_KEY' => env('PAYSTACK_PUBLIC_KEY', 'pk_test_2a758026b16c8b3a4c52a10f1c36204fcf80556d'),
     'PAYSTACK_SECRET_KEY' => env('PAYSTACK_SECRET_KEY', 'sk_test_e4b7af02b0adcab7ecc27b94e37cd1b1bdfe62ea'),
     'PAYSTACK_PAYMENT_URL' => env('PAYSTACK_PAYMENT_URL', 'https://api.paystack.com'),
+    
+    'FLUTTERWAVE_PUBLIC_KEY' => env('FLUTTERWAVE_PUBLIC_KEY', 'FLWPUBK_TEST-67b8b61fa7f96a979d89af7cefc353dc-X'),
+    'FLUTTERWAVE_SECRET_KEY' => env('FLUTTERWAVE_SECRET_KEY', 'FLWSECK_TEST-db251aebc7fc11c592f3e7646f8f9bb7-X'),
+    'FLUTTERWAVE_ENCRYPTION_KEY' => env('FLUTTERWAVE_ENCRYPTION_KEY', 'FLWSECK_TEST2f0ad0103d8d'),
+    
     'MERCHANT_EMAIL' => env('MERCHANT_EMAIL', 'readmoni9ja@gmail.com'),
 
 
@@ -273,7 +278,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Image' => Intervention\Image\Facades\Image::class,
-        'PAY' => App\Facades\PaystackPay::class,
+        'PAY' => App\Facades\PAY::class,
         'RM' => App\Facades\ReadMoni::class,
     ],
 
