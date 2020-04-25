@@ -132,9 +132,10 @@
         </div>
     </div>
     
-    <button id="load-requests" class="btn btn-light btn-icon-split mt-4 ml-auto mr-auto d-block auto-load" type="button" data-url="{{ route('admin.payouts.list.process') }}" data-page="0">
+    <button id="load-payouts" class="btn btn-light btn-icon-split mt-4 ml-auto mr-auto d-block auto-load" type="button" data-url="{{ route('admin.payouts.list.process') }}" v-bind:data-page="payouts_page" v-on:click="getRequests">
         <span class="text-black-50 icon">
-            <i class="fas fa-clipboard-list"></i>
+            <i class="fas fa-spin fa-spinner" v-if="loadingPayouts"></i>
+            <i class="fas fa-clipboard-list" v-else></i>
         </span>
         <span class="text-dark text">
             Load more

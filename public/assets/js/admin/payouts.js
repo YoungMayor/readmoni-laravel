@@ -1,66 +1,3 @@
-function Payouts() {
-    var bar = this;
-
-    this.getRequests = function(btn) {
-        var thisBTN = $(btn);
-        if ($(thisBTN).attr('data-loading') == 'true') {
-            return false;
-        }
-        var thisURL = $(thisBTN).attr("data-url");
-        var thisPage = $(thisBTN).attr('data-page');
-
-        var thisTarget = $("#payout_requests");
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-Token': $("meta[name='csrf-token']").attr("content")
-            }
-        });
-
-        $.ajax({
-            method: "POST",
-            url: thisURL,
-            data: {
-                page: thisPage
-            },
-            dataType: "JSON",
-            beforeSend: function() {
-                bar.loadStart(thisBTN);
-            },
-            complete: function() {
-                bar.loadStop(thisBTN);
-            },
-            error: function() {
-                //             $(thisError).html("There was an error with your request");
-            },
-            statusCode: {
-                419: function() {
-                    location.reload();
-                },
-            },
-            success: function(response) {
-                if (response.list) {
-                    for (var i in response.list) {
-                        var thisElem = response.list[i];
-                        REQUESTS.requests.push(thisElem);
-                    }
-                }
-                $(thisBTN).attr('data-page', response.next);
-            },
-        });
-    };
-
-    this.loadStart = function(btn) {
-        $(btn).append($(loadingICON).clone());
-        $(btn).attr('data-loading', 'true');
-    }
-
-    this.loadStop = function(btn) {
-        $(btn).removeAttr('data-loading');
-        $(btn).find('.loading-icon').remove();
-    }
-}
-
 var REQUESTS = new Vue({
     el: "#payouts_form",
     data: {
@@ -74,6 +11,10 @@ var REQUESTS = new Vue({
         dollarClass: 'fas fa-dollar-sign',
         loadingBTNIcon: 'fas fa-dollar-sign',
         submitBTNDisabled: false,
+
+        loadPayoutsBTN: $("#load-payouts"),
+        loadingPayouts: false,
+        payouts_page: 0,
     },
     methods: {
         attachEvent() {
@@ -153,12 +94,37 @@ var REQUESTS = new Vue({
                     }
                 },
             });
+        },
+        getRequests: function() {
+            var bar = this;
+
+            var thisBTN = $(bar.loadPayoutsBTN);
+
+            if (bar.loadingPayouts) {
+                return false;
+            }
+
+            var thisURL = $(thisBTN).attr("data-url");
+
+
+            bar.loadingPayouts = true;
+
+            axios.post(thisURL, {
+                page: bar.payouts_page
+            }).then(function(response) {
+                var data = response.data;
+                if (data.list) {
+                    bar.requests = bar.requests.concat(data.list);
+                }
+                bar.payouts_page = data.next;
+            }).catch(function(error) {
+                if (error.response.status == '419') {
+                    location.reload();
+                }
+            }).then(function() {
+                bar.loadingPayouts = false;
+            });
+            return;
         }
     }
-});
-
-let PAYOUTS = new Payouts();
-
-$("#load-requests").on('click', function() {
-    PAYOUTS.getRequests(this);
 });

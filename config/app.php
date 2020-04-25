@@ -164,6 +164,8 @@ return [
     'MINIMUM_PAYOUT' => env('MINIMUM_PAYOUT', '1000'),
     'PAYOUT_FACTOR' => env('PAYOUT_FACTOR', '500'),
 
+    'HIDE_ADS' => env('HIDE_ADS', false),
+
 
     /*
     |--------------------------------------------------------------------------

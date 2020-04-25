@@ -19,10 +19,7 @@
     @css(animate.min, 1)
     @yield('page-css')
 
-    
-    @Vue_JS()
-
-    <script data-ad-client="ca-pub-9777382863618110" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    @GOOGLE_ADS()
 </head>
 
 <body id="page-top">
@@ -261,8 +258,10 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
+    @Vue_JS()
     @JQUERY()
     @BS_JS()
+    @axios_JS()
     @js(readmoni)
     @js(general)
     @js(chart.min)

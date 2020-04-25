@@ -60,6 +60,20 @@ _HTML_;
         });
 
 
+        Blade::directive("axios_JS", function($expression){
+            return "<script src='{{ asset('assets/js/axios.min.js') }}'></script>";
+        });
+
+
+        Blade::directive("GOOGLE_ADS", function($expression){
+            if (config('app.HIDE_ADS')){
+                return "<!-- Google Ads Removed -->";
+            }else{
+                return '<script data-ad-client="ca-pub-9777382863618110" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
+            }
+        });
+
+
         Blade::directive("js", function($expression){
             $this->assetVersion($expression, $file, $version);
 
