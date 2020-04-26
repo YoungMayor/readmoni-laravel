@@ -24,7 +24,7 @@ class NewsController extends Controller
         "general" => "Highlights",
         "health" => "Health News",
         "science" => "Science News",
-        "sports" => "Top News",
+        "sports" => "Sports News",
         "technology" => "Technology News", 
         "top-news" => "Latest News"
     ];
