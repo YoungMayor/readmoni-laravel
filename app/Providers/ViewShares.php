@@ -56,7 +56,11 @@ _HTML_;
 
 
         Blade::directive("Vue_JS", function($expression){
-            return "<script src='{{ asset('assets/js/vue.min.js') }}'></script>";
+            if (config('app.DEV_VUE')){
+                return "<script src='{{ asset('assets/js/vue.js') }}'></script>";
+            }else{
+                return "<script src='{{ asset('assets/js/vue.min.js') }}'></script>";
+            }
         });
 
 

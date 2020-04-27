@@ -7,89 +7,104 @@
 @endsection
 
 @section("page-js")
-
+@js(admin/faq)
 @endsection
 
 @section("page-body")
 
 <h2 class="text-center">Frequently Asked Questions</h2>
-<p>Questions. Click to expand</p>
-<div class="mb-5">
-    <!-- Start: Collapsible Card -->
-    <div class="shadow card"><a class="btn btn-link text-left card-header font-weight-bold" data-toggle="collapse"
-            aria-expanded="false" aria-controls="faq-1" href="#faq-1" role="button">Collapsible Card Example</a>
-        <div class="collapse" id="faq-1">
-            <div class="card-body">
-                <p class="m-0">This is a collapsable card example using Bootstrap's built in collapse
-                    functionality.&nbsp;<strong>Click on the card header</strong>&nbsp;to see the card body collapse and
-                    expand!</p>
-            </div>
-            <div class="text-center text-white bg-dark p-2"><span class="small">Question asked by: <strong>Meyoron
-                        Aghogho</strong>&nbsp;<a
-                        href="mail:youngmar08@gmail.com"><em>youngmayor08@gmail.com</em></a></span></div>
-            <div class="text-center p-2">
-                <div class="btn-group" role="group"><button class="btn btn-outline-info" type="button"><i
-                            class="far fa-edit"></i><span class="pl-2">Edit FAQ</span></button><button
-                        class="btn btn-danger" type="button"><span class="pr-2">Delete FAQ</span><i
-                            class="far fa-trash-alt"></i></button></div>
-            </div>
-        </div>
-    </div>
-    <!-- End: Collapsible Card -->
-    <!-- Start: Collapsible Card -->
-    <div class="shadow card"><a class="btn btn-link text-left card-header font-weight-bold" data-toggle="collapse"
-            aria-expanded="false" aria-controls="faq-2" href="#faq-2" role="button">Collapsible Card Example</a>
-        <div class="collapse" id="faq-2">
-            <div class="card-body">
-                <p class="m-0">This is a collapsable card example using Bootstrap's built in collapse
-                    functionality.&nbsp;<strong>Click on the card header</strong>&nbsp;to see the card body collapse and
-                    expand!</p>
-            </div>
-            <div class="text-center text-white bg-dark p-2"><span class="small">Question asked by: <strong>Meyoron
-                        Aghogho</strong>&nbsp;<a
-                        href="mail:youngmar08@gmail.com"><em>youngmayor08@gmail.com</em></a></span></div>
-            <div class="text-center p-2">
-                <div class="btn-group" role="group"><button class="btn btn-outline-info" type="button"><i
-                            class="far fa-edit"></i><span class="pl-2">Edit FAQ</span></button><button
-                        class="btn btn-danger" type="button"><span class="pr-2">Delete FAQ</span><i
-                            class="far fa-trash-alt"></i></button></div>
-            </div>
-        </div>
-    </div>
-    <!-- End: Collapsible Card -->
-    <!-- Start: Collapsible Card -->
-    <div class="shadow card"><a class="btn btn-link text-left card-header font-weight-bold" data-toggle="collapse"
-            aria-expanded="false" aria-controls="faq-3" href="#faq-3" role="button">Collapsible Card Example</a>
-        <div class="collapse" id="faq-3">
-            <div class="card-body">
-                <p class="m-0">This is a collapsable card example using Bootstrap's built in collapse
-                    functionality.&nbsp;<strong>Click on the card header</strong>&nbsp;to see the card body collapse and
-                    expand!</p>
-            </div>
-            <div class="text-center text-white bg-dark p-2"><span class="small">Question asked by: <strong>Meyoron
-                        Aghogho</strong>&nbsp;<a
-                        href="mail:youngmar08@gmail.com"><em>youngmayor08@gmail.com</em></a></span></div>
-            <div class="text-center p-2">
-                <div class="btn-group" role="group"><button class="btn btn-outline-info" type="button"><i
-                            class="far fa-edit"></i><span class="pl-2">Edit FAQ</span></button><button
-                        class="btn btn-danger" type="button"><span class="pr-2">Delete FAQ</span><i
-                            class="far fa-trash-alt"></i></button></div>
-            </div>
-        </div>
-    </div>
-    <!-- End: Collapsible Card -->
-</div>
-<!-- Start: Split Button Success --><button class="btn btn-primary btn-lg btn-icon-split d-block m-auto"><span
-        class="text-white-50 icon"><i class="fas fa-plus"></i></span><span class="text-white text">Add
-        Question</span></button>
-<!-- End: Split Button Success -->
-<form class="mt-5" action="add_question" method="post">
-    <h6 class="text-center text-black-50">FAQ's are publicly displayed. Verify before saving</h6>
-    <div class="form-group"><textarea class="form-control" name="question" placeholder="Question here" rows="5"
-            required=""></textarea><small class="form-text text-center text-muted">* Keep the question as short and
-            descriptive as possible</small></div>
-    <div class="form-group"><textarea class="form-control" name="answer" placeholder="Answer to the above question"
-            rows="5" required=""></textarea><small class="form-text text-center text-muted">* A well presented and
-            accurate answer</small></div>
+<p>
+    Questions. Click to expand
+</p>
 
-    @endsection
+<div id="faq-admin-app" data-getURL="{{ route('admin.faq.get.process') }}" data-saveURL="{{ route('admin.faq.save.process') }}" data-deleteURL="">
+    <div class="mb-3" v-for="faq in faqs">
+        <div class="shadow card">
+            <a class="btn btn-link text-left card-header font-weight-bold" data-toggle="collapse" aria-expanded="false" :aria-controls="faq.faq_id" :href="'#'+faq.faq_id" role="button">
+                @{{ faq.question }}
+            </a>
+            <div class="collapse" :id="faq.faq_id">
+                <div class="card-body">
+                    <form class="m-0" v-if="faq.isEditting" @submit.prevent="saveQuestion(faq.faq_id)">
+                        <div class="form-group">
+                            <textarea class="form-control" name="question" placeholder="Question here" rows="5" required="" v-model="faq.question"></textarea>
+                            
+                            <div class="text-danger small" v-for="error in faq.saveError.question">
+                                @{{ error }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" name="answer" placeholder="Answer here" rows="5" v-model="faq.answer"></textarea>
+                            
+                            <div class="text-danger small" v-for="error in faq.saveError.answer">
+                                @{{ error }}
+                            </div>
+                        </div>
+
+
+                        <div class="form-group text-right">
+                            <button class="btn btn-success btn-icon-split" type="submit">
+                                <template v-if="!faq.isSaving">
+                                    <span class="text-white-50 icon">
+                                        <i class="far fa-save"></i>
+                                    </span>
+                                    <span class="text-white text">
+                                        Save Question
+                                    </span>
+                                </template>
+                                <template v-else>
+                                    <span class="text-white-50 icon">
+                                        <i class="fa fa-spin fa-spinner"></i>
+                                    </span>
+                                    <span class="text-white text">
+                                        Saving...
+                                    </span>
+                                </template>
+                            </button>
+                        </div>
+                    </form>
+
+                    <p class="m-0" v-else>
+                        @{{ faq.answer }}
+                    </p>
+                </div>
+
+                <div class="text-center text-white bg-dark p-2">
+                    <span class="small">
+                        Question asked by: 
+                        <strong>
+                            @{{ faq.author }}
+                        </strong>
+                        <a href="mail:youngmar08@gmail.com">
+                            <em>
+                                @{{ faq.mail }}
+                            </em>
+                        </a>
+                    </span>
+                </div>
+
+                <div class="text-center p-2">
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-outline-info" type="button" @click="toogleEdit(faq.faq_id)">
+                            <i class="far fa-edit"></i>
+                            <span class="pl-2" v-if="!faq.isEditting">
+                                Edit FAQ
+                            </span>
+                            <span v-else>
+                                Close Edittor
+                            </span>
+                        </button>
+                        <button class="btn btn-danger" type="button" @click="deleteQuestion(faq.faq_id)">
+                            <span class="pr-2">
+                                Delete FAQ
+                            </span>
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection

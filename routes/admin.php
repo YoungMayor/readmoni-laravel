@@ -32,6 +32,7 @@ Route::post('/audit/notify_user', 'UserAuditController@sendMessage')->name('admi
 
 Route::post('/audit/history/payments', 'UserAuditController@getHistory')->name('admin.audit.history.payments');
 
-Route::get('/faq', function(){ 
-    return view(RSP::ADMIN_FAQ);
-})->name('admin.faq.page');
+Route::get('/faq', "QuestionController@showPage")->name('admin.faq.page');
+Route::get('/faq/questions', "QuestionController@getQuestions")->name('admin.faq.get.process');
+Route::post('/faq/save', "QuestionController@saveQuestion")->name('admin.faq.save.process');
+Route::post('/faq/delete', "QuestionController@deleteQuestion")->name('admin.faq.save.process');
