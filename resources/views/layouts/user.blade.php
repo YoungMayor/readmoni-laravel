@@ -95,7 +95,7 @@
                                 <img class="img-fluid" src="@imgURL(readmoni_icon.png)">
                             </button>
 
-                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-right animated--grow-in" role="menu">
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-right animated--grow-in w-auto" role="menu">
                                 <a class="dropdown-item" role="presentation" href="{{ route('user.about.page') }}">
                                     <i class="fas fa-info fa-sm fa-fw mr-2 text-gray-400"></i>
                                     About ReadMONI
